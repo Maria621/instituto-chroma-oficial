@@ -33,6 +33,9 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 ├── tests/validate-site.mjs      # HTML, arquivos, âncoras, sintaxe e estrutura
 ├── tests/contact-api.test.mjs   # Testes simulados de segurança do contato
 ├── tests/browser-layout.mjs     # Layout e interações reais com Chrome
+├── tests/visual-review.mjs      # Capturas e comparação visual antes/depois
+├── scripts/verify-production.mjs # Compara o SHA aprovado ao Vercel (somente leitura)
+├── .github/workflows/conferir-producao.yml # Validação manual do domínio publicado
 └── .github/workflows/qualidade.yml
 ```
 
@@ -63,3 +66,7 @@ Os testes de navegador usam o Chrome (`channel: 'chrome'`). As verificações co
 ## Próxima etapa de arquitetura
 
 Planejar migração progressiva e testada para componentes reutilizáveis de cabeçalho, rodapé, cards e seções. Uma implementação com templates/build (como Astro ou Eleventy) pode eliminar a duplicação de páginas sem alterar a interface. A migração deve ser feita em branch própria, com comparação visual e aprovação por página — não por substituição massiva do código atual.
+
+## Processo de publicação (Etapa 1)
+
+Ver [ETAPA_1_ESTABILIDADE_V12.md](ETAPA_1_ESTABILIDADE_V12.md) para o procedimento completo. A nova rotina inclui capturas antes/depois da proposta, diff visual e conferência do SHA no domínio real. Um teste de PR aprovado **não** significa que a produção foi atualizada. Regras de proteção da branch devem ser configuradas pelo administrador com os três checks do CI.
