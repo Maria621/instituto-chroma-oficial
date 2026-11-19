@@ -38,7 +38,7 @@ const server = createServer(async (req, res) => {
 const listen = () => new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 let browser = null;
 const problems = [];
-const widths = [360, 390, 768, 1024, 1280, 1440];
+const widths = [360, 390, 768, 820, 900, 980, 1024, 1280, 1440];
 const paths = [
   'index.html', 'nossa-escola.html', 'nossa-essencia.html',
   'metodologia.html', 'estrutura.html', 'experiencia-chroma.html',
@@ -56,6 +56,17 @@ try {
       await page.evaluate(async () => {
         await Promise.race([document.fonts.ready, new Promise(resolve => setTimeout(resolve, 1700))]);
       });
+      if (path === 'novidades.html') {
+        // O layout final dos banners precisa ser testado após o carregamento
+        // das artes, e não apenas após a construção inicial do DOM.
+        await page.evaluate(async () => {
+          const images = [...document.querySelectorAll('.v31-art-frame img')];
+          await Promise.all(images.map(async img => {
+            img.loading = 'eager';
+            await img.decode().catch(() => {});
+          }));
+        });
+      }
       const issues = await page.evaluate(() => {
         const tolerance = 6;
         const failures = [];
@@ -136,6 +147,29 @@ try {
         if (hero.objectFit !== 'contain' || hero.imageTransform !== 'none' ||
             hero.frameOverflow !== 'visible' || !hero.pictureInViewport) {
           problems.push(width + 'px: arte principal ainda pode ser recortada');
+        }
+      }
+      if (path === 'novidades.html' && width <= 980) {
+        const imageActions = await page.locator('.v31-art-frame .v31-expand-art').evaluateAll(buttons => {
+          return buttons.map(button => {
+            const card = button.closest('.v31-art-frame');
+            const rect = button.getBoundingClientRect();
+            const parent = card.getBoundingClientRect();
+            return {
+              label: button.textContent.trim(),
+              position: getComputedStyle(button).position,
+              withinCard: rect.left >= parent.left - 3 &&
+                rect.right <= parent.right + 3 &&
+                rect.top >= parent.top - 3 &&
+                rect.bottom <= parent.bottom + 3
+            };
+          });
+        });
+        if (!imageActions.length) problems.push(width + 'px: nenhum controle de ampliar arte encontrado');
+        for (const action of imageActions) {
+          if (action.position !== 'static' || !action.withinCard) {
+            problems.push(width + 'px: ação de imagem posicionada fora da área visível: ' + action.label);
+          }
         }
       }
       if (path === 'nossa-escola.html') {
