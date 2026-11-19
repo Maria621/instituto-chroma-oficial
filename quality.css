@@ -502,3 +502,55 @@ html.fusion-enhanced [data-fusion-reveal]:not(.is-visible) {
 @media(prefers-reduced-motion:reduce) {
   .chroma-practice-media img, .chroma-news-card, .chroma-timeline-tabs button { transition:none!important; }
 }
+
+/* Elementos operam sem JS: a linha do tempo mostra todos os painéis em sequência. */
+.chroma-timeline:not(.is-ready) .chroma-timeline-tabs,
+.chroma-timeline:not(.is-ready) .chroma-timeline-controls { display: none; }
+.chroma-timeline:not(.is-ready) .chroma-timeline-panel + .chroma-timeline-panel { border-top: 1px solid #dce7f1; }
+
+/* Identificação transparente da segunda unidade de Sorocaba. */
+.chroma-unit-addendum {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 28px;
+  margin: 30px 0 60px;
+  padding: clamp(29px, 4vw, 53px);
+  border-radius: 15px;
+  border: 1px solid #c9dff4;
+  background: linear-gradient(105deg, #f1f8ff, #e6f1fd);
+}
+.chroma-unit-addendum h2 {
+  margin: 13px 0;
+  color: #082b56;
+  font: 800 clamp(27px, 3.5vw, 45px)/1.17 var(--sans);
+  letter-spacing: -.04em;
+}
+.chroma-unit-addendum p {
+  font-size: 15px;
+  line-height: 1.75;
+  max-width: 700px;
+  margin: 0;
+  color: #526b85;
+}
+.chroma-unit-addendum>a {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  padding: 14px 22px;
+  min-height: 48px;
+  background: #0b3a76;
+  color: white;
+  border-radius: 999px;
+  font: 800 12px var(--sans);
+  white-space: nowrap;
+}
+.chroma-unit-addendum>a:hover { background: #135ba6; color: white; }
+@media(max-width:800px) {
+  .chroma-unit-addendum { grid-template-columns: 1fr; }
+  .chroma-unit-addendum>a { justify-self: start; }
+}
+@media(max-width:480px) {
+  .chroma-unit-addendum>a { width: 100%; justify-content: space-between; }
+}
