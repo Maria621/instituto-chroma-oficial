@@ -810,3 +810,70 @@ body { overflow-wrap: normal; }
   .chroma-footer-nav { grid-template-columns: 1fr; }
   .chroma-news-card > div:last-child { padding: 23px; }
 }
+
+
+/* Histórico institucional: texto completo com data e progressão legíveis. */
+.chroma-history-milestones { background: #fff; padding: clamp(72px, 9vw, 125px) 0; }
+.chroma-history-milestones .chroma-section-heading { align-items: start; }
+.chroma-history-list {
+  display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: clamp(18px,2.2vw,31px); list-style: none; padding: 0; margin: 0;
+}
+.chroma-history-list li {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: clamp(27px,3vw,45px);
+  border: 1px solid #d5e3f0; background: #f3f8fd;
+  border-radius: 12px; min-width: 0; height: auto;
+}
+.chroma-history-list li:first-child { background: #072e62; color: #fff; border-color: #072e62; }
+.chroma-history-year {
+  display: inline-block;
+  color: #2572b9;
+  font: 800 12px/1.5 var(--sans);
+  letter-spacing: .13em;
+  margin-bottom: clamp(12px,2vw,26px);
+}
+.chroma-history-list li:first-child .chroma-history-year { color: #ffde45; }
+.chroma-history-list h3 {
+  margin: 0 0 15px;
+  font: 800 clamp(24px,2.3vw,33px)/1.23 var(--sans);
+  letter-spacing: -.045em; color: #092e60;
+}
+.chroma-history-list li:first-child h3 { color: #fff; }
+.chroma-history-list p {
+  margin: 0;
+  font-size: 15px; line-height: 1.8;
+  color: #556b82; max-width: 65ch;
+}
+.chroma-history-list li:first-child p { color: #d6e6f8; }
+.chroma-history-list a {
+  display: inline-flex; gap: 10px; margin-top: 16px; padding-bottom: 5px;
+  color: #155d9d; font: 800 13px/1.5 var(--sans);
+  border-bottom: 1px solid #8cbbe7;
+}
+.chroma-history-list a:hover { color: #063b73; }
+@media (max-width: 1000px) {
+  .chroma-history-list { grid-template-columns: 1fr; }
+  .chroma-history-list li { padding: 30px; }
+  .chroma-history-year { margin-bottom: 8px; }
+}
+@media (max-width: 600px) {
+  .chroma-history-milestones { padding: 70px 0; }
+  .chroma-history-list li { padding: 25px 22px; }
+  .chroma-history-list h3 { font-size: clamp(24px,6vw,32px); }
+  .chroma-history-list p { font-size: 15px; }
+}
+
+/* Protege a navegação no intervalo de telas em que todos os links não cabem.
+   O JavaScript usa o mesmo limite de 1300 px. */
+@media (max-width: 1300px) {
+  .chroma-header-v31 .desktop-nav,
+  .chroma-header-v31 .header-cta { display: none !important; }
+  .chroma-header-v31 .menu-toggle { display: inline-flex !important; }
+  .chroma-header-v31 .mobile-nav:not([hidden]) { display: flex !important; }
+  .chroma-header-v31 .mobile-nav[hidden] { display: none !important; }
+}
+@media (min-width: 1301px) {
+  .chroma-header-v31 .menu-toggle,
+  .chroma-header-v31 .mobile-nav { display: none !important; }
+}
