@@ -1,0 +1,7 @@
+# Fontes internas: o site público serve somente o HTML gerado na raiz.
+src/
+scripts/
+tests/
+.github/
+*.md
+.env.example
