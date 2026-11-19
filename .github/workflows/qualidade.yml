@@ -23,5 +23,6 @@ jobs:
           node --check app.js
           node --check v31.js
           node --check fusion.js
+          node --check timeline.js
       - name: Verificar HTML, links, CSS e arquivos
         run: node tests/validate-site.mjs
