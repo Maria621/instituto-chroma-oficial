@@ -24,9 +24,13 @@ jobs:
           node --check v31.js
           node --check fusion.js
           node --check timeline.js
+          node --check api/contato.js
           node --check tests/browser-layout.mjs
+          node --check tests/contact-api.test.mjs
       - name: Verificar HTML, links, CSS e arquivos
         run: node tests/validate-site.mjs
+      - name: Testar a segurança e disponibilidade do contato
+        run: node tests/contact-api.test.mjs
 
   browser-layout:
     name: Texto completo e navegação em telas reais
