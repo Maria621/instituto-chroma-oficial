@@ -27,6 +27,7 @@ node tests/validate-site.mjs
 - Estado atual de navegação mantido como no código anterior, incluindo uma inconsistência histórica de `aria-current` na página `aluno-nota-10.html`. Corrigir essa inconsistência junto à auditoria UX/ARIA posterior, sem misturar com a migração estrutural.
 - O contato mantém sua API, formulário e regras de segurança da V13.
 - Nenhum CSS, JavaScript de runtime ou texto institucional foi modificado nesta etapa.
+- `.vercelignore` impede que templates, scripts internos, testes e documentação sejam enviados ao ambiente público do Vercel; o HTML gerado, assets e API continuam incluídos.
 
 ## Critérios de aceite
 
