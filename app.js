@@ -1,7 +1,7 @@
 (()=>{'use strict';
 const header=document.querySelector('#header');
 const panel=document.querySelector('#mobile-panel');
-const isHome=!!document.querySelector('section.hero#inicio');
+const isHome=!!document.querySelector('section.hero#inicio, section.fusion-hero#inicio');
 const logo=header?.querySelector('.brand-official-image');
 const logoWhite='assets/logo-instituto-chroma-branco.png';
 const logoNavy='assets/logo-instituto-chroma.png';
