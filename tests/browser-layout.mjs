@@ -160,7 +160,7 @@ try {
       if (path === 'nossa-escola.html') {
         const contrast = await page.evaluate(() => {
           const rgba = value => {
-            const parts = value.match(/[\\d.]+/g);
+            const parts = value.match(/[0-9.]+/g);
             return parts ? parts.slice(0,3).map(Number) : [0,0,0];
           };
           const luminance = triplet => triplet.map(value => {
