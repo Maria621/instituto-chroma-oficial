@@ -103,6 +103,13 @@ a, button { touch-action: manipulation; }
 .page-essence .essence-desc p { color: #d9e8f8; font-size: 14px; line-height: 1.8; margin: 0; }
 .page-essence .essence-icon { display: none; }
 
+/* Acordeão pedagógico: o texto é legível sem JavaScript e expansível com ele. */
+.method-step .method-plus { visibility: hidden; }
+html.chroma-js .method-step .method-plus { visibility: visible; }
+.method-step-main > span[hidden] { display: none !important; }
+.method-step { min-height: 60px; }
+.method-step:focus-visible { outline-offset: 3px; }
+
 /* 5. Página inicial: respeito aos conteúdos e imagens. */
 .fusion-home .fusion-hero h1 { max-width: 780px; font-size: clamp(51px, 5.7vw, 87px); line-height: 1.035; }
 .fusion-home .fusion-hero p { max-width: 620px; }
