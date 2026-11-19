@@ -48,7 +48,7 @@ const paths = [
 try {
   await listen();
   const base = 'http://127.0.0.1:' + server.address().port;
-  browser = await chromium.launch({ headless: true, args: ['--disable-dev-shm-usage'] });
+  browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--disable-dev-shm-usage'] });
   for (const width of widths) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
     for (const path of paths) {
