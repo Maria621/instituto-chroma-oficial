@@ -574,3 +574,239 @@ html.fusion-enhanced [data-fusion-reveal]:not(.is-visible) {
 @media(max-width:480px) {
   .chroma-practice-media::before {font-size:8px;top:10px;right:10px;}
 }
+
+
+/* ============================================================================
+   V8 · INTEGRIDADE DO CONTEÚDO
+   Conteúdo pode aumentar ou mudar sem romper a composição. Evitar truncamento,
+   alturas fixas sobre texto e regras nowrap em interfaces com várias linhas.
+   ============================================================================ */
+:root {
+  --chroma-reading-width: 72ch;
+  --chroma-layout-gap: clamp(22px, 3.1vw, 56px);
+}
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-wrap: normal; }
+:where(main, section, article, .container, .fusion-wrap, .fusion-hero-copy,
+  .fusion-gallery-content, .fusion-card-body, .chroma-timeline-copy,
+  .chroma-news-card, .chroma-news-card > div, .chroma-footer-nav > div) {
+  min-width: 0;
+}
+:where(main h1, main h2, main h3) {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+:where(main p, main li, main address, .chroma-footer p) {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+:where(main a, main button, .chroma-footer a) { overflow-wrap: break-word; }
+
+/* O texto do hero é prioritário: a imagem se ajusta ao texto, não o contrário. */
+.fusion-home main { overflow: visible; }
+.fusion-home .fusion-hero {
+  height: auto;
+  min-height: min(860px, 100svh);
+  padding-block: clamp(135px, 13vw, 176px) clamp(72px, 8vw, 120px);
+  overflow: visible;
+}
+.fusion-home .fusion-hero-grid {
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  gap: var(--chroma-layout-gap);
+  align-items: center;
+}
+.fusion-home .fusion-hero-copy { position: relative; z-index: 2; }
+.fusion-home .fusion-hero h1 {
+  font-size: clamp(45px, 5.1vw, 77px);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  max-width: 17ch;
+  margin-block: 23px;
+}
+.fusion-home .fusion-hero h1 em { letter-spacing: -.036em; }
+.fusion-home .fusion-hero p {
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.75;
+  max-width: 58ch;
+}
+.fusion-home .fusion-hero-actions {
+  flex-wrap: wrap;
+  gap: clamp(14px, 2vw, 25px);
+}
+.fusion-button, .fusion-textlink, .pill-link, .editorial-bridge a,
+.chroma-unit-addendum > a {
+  white-space: normal;
+  max-width: 100%;
+  text-wrap: pretty;
+}
+.fusion-button { min-height: 52px; line-height: 1.4; }
+.fusion-button-arrow, .pill-arrow { flex-shrink: 0; }
+.fusion-home .fusion-hero-note { max-width: 100%; text-align: right; }
+
+/* Seções: proporção de colunas controlada pela largura real do conteúdo. */
+.fusion-home .fusion-grid-2 {
+  grid-template-columns: minmax(0, .97fr) minmax(0, 1.03fr);
+  gap: var(--chroma-layout-gap);
+}
+.fusion-home .fusion-intro-copy { max-width: none; }
+.fusion-home .fusion-intro-copy > p { max-width: 66ch; }
+.fusion-home .fusion-heading {
+  font-size: clamp(37px, 4.35vw, 67px);
+  line-height: 1.14;
+  letter-spacing: -.048em;
+  max-width: 100%;
+}
+.fusion-home .fusion-intro-copy .fusion-heading {
+  font-size: clamp(37px, 4vw, 59px);
+}
+.fusion-home .fusion-section-head {
+  align-items: start;
+  gap: clamp(20px, 3vw, 48px);
+}
+.fusion-home .fusion-section-head > div { min-width: 0; flex: 1 1 auto; }
+.fusion-home .fusion-section-head > p {
+  flex: 0 1 390px;
+  max-width: 390px;
+  margin-top: 18px;
+  line-height: 1.75;
+}
+.fusion-home .fusion-steps, .fusion-home .fusion-step { min-width: 0; }
+.fusion-home .fusion-step h3 {
+  font-size: clamp(22px, 2.2vw, 32px);
+  line-height: 1.2;
+}
+.fusion-home .fusion-step p {
+  font-size: 15px;
+  line-height: 1.75;
+}
+.fusion-home .fusion-pillars-layout {
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: clamp(36px, 6vw, 85px);
+}
+/* A caixa da galeria cresce com o texto; nunca depende de altura fixa. */
+.fusion-home .fusion-gallery-frame {
+  grid-template-columns: minmax(0, 1.06fr) minmax(330px, .94fr);
+  min-height: 0;
+}
+.fusion-home .fusion-gallery-media { min-height: 510px; }
+.fusion-home .fusion-gallery-content {
+  min-height: 510px;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(29px, 4vw, 62px);
+}
+.fusion-home .fusion-gallery-content h3 {
+  font-size: clamp(27px, 3vw, 42px);
+  line-height: 1.24;
+  letter-spacing: -.034em;
+  margin-block: 12px 20px;
+}
+.fusion-home .fusion-gallery-content p { font-size: 16px; line-height: 1.78; }
+.fusion-home .fusion-gallery-controls { margin-top: auto; gap: 18px; }
+.fusion-home .fusion-gallery-caption { line-height: 1.5; }
+.fusion-home .fusion-card-grid { gap: clamp(18px, 2vw, 28px); }
+.fusion-home .fusion-project-card { height: auto; }
+.fusion-home .fusion-project-card h3 { font-size: clamp(22px, 2.1vw, 29px); line-height: 1.24; }
+.fusion-home .fusion-project-card p { font-size: 15px; line-height: 1.75; }
+.fusion-home .fusion-partner-card { min-height: 0; padding-block: clamp(33px, 3vw, 48px); }
+.fusion-home .fusion-partner-card h3 { margin: 38px 0 18px; font-size: clamp(27px, 2.9vw, 40px); line-height: 1.18; }
+.fusion-home .fusion-unit { min-height: 0; }
+.fusion-home .fusion-next-panel { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); }
+
+/* Páginas internas: leia as frases completas, sem compressão visual. */
+.page-inner-hero {
+  height: auto;
+  min-height: clamp(410px, 41vw, 560px);
+  padding-block: clamp(128px, 13vw, 163px) clamp(65px, 7vw, 98px);
+}
+.page-inner-hero h1 {
+  max-width: 1000px;
+  font-size: clamp(40px, 5.25vw, 77px);
+  line-height: 1.15;
+  letter-spacing: -.042em;
+  margin-block: 34px 24px;
+}
+.page-inner-hero p { max-width: 70ch; font-size: clamp(15px, 1.3vw, 18px); }
+.chroma-section-heading h2, .chroma-news-heading h2 { line-height: 1.17; letter-spacing: -.042em; }
+.chroma-timeline-panel { height: auto; }
+.chroma-timeline-copy h3 { line-height: 1.21; font-size: clamp(29px, 3.1vw, 44px); }
+.chroma-timeline-copy p { max-width: var(--chroma-reading-width); }
+.chroma-timeline-art span { overflow-wrap: break-word; line-height: 1.14; }
+.chroma-news-card strong { line-height: 1.24; overflow-wrap: break-word; }
+.chroma-news-card > div:last-child { gap: 8px; }
+.chroma-news-card > div:last-child b { padding-top: 12px; }
+.chroma-footer-nav a { line-height: 1.6; white-space: normal; }
+.v6-partnership-main, .v3-contact-full, .v3-units-page, .v4-scholarship {
+  overflow-wrap: break-word;
+}
+.v6-partnership-content, .v3-location-info, .v3-full-form, .v3-contact-aside {
+  min-width: 0;
+}
+.v3-full-form :is(input, select, textarea) { max-width: 100%; }
+.method-step-main > span { max-width: min(100%, 66ch); overflow: visible; line-height: 1.8; }
+.method-step-main strong { line-height: 1.2; }
+.v3-feature-article-art img, .v3-news-article-image img {
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+.v3-feature-article-art, .v3-news-article-image { height: auto; }
+
+/* Quebras: grid apenas quando há espaço para o texto. */
+@media (max-width: 1180px) {
+  .fusion-home .fusion-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .83fr);
+    gap: clamp(18px, 2.4vw, 35px);
+  }
+  .fusion-home .fusion-hero h1 { font-size: clamp(41px, 4.6vw, 60px); }
+  .fusion-home .fusion-gallery-frame { grid-template-columns: minmax(0, 1fr) minmax(285px, .95fr); }
+}
+@media (max-width: 980px) {
+  .fusion-home .fusion-hero-grid,
+  .fusion-home .fusion-grid-2,
+  .fusion-home .fusion-pillars-layout,
+  .fusion-home .fusion-gallery-frame,
+  .fusion-home .fusion-next-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fusion-home .fusion-hero { min-height: 0; }
+  .fusion-home .fusion-hero h1 { max-width: 18ch; font-size: clamp(44px, 6.2vw, 64px); }
+  .fusion-home .fusion-gallery-content { min-height: 0; }
+  .fusion-home .fusion-gallery-media { min-height: 410px; }
+  .fusion-home .fusion-section-head > p { flex-basis: auto; max-width: 65ch; margin: 0; }
+  .fusion-home .fusion-pillars-layout > .fusion-intro-copy { position: static; }
+}
+@media (max-width: 680px) {
+  .fusion-home .fusion-hero { padding: 127px 0 75px; }
+  .fusion-home .fusion-hero h1 { max-width: 100%; font-size: clamp(36px, 9vw, 52px); line-height: 1.16; }
+  .fusion-home .fusion-hero p { font-size: 16px; }
+  .fusion-home .fusion-hero-actions { align-items: stretch; flex-direction: column; }
+  .fusion-home .fusion-hero-actions > * { min-width: 0; width: 100%; }
+  .fusion-home .fusion-heading, .fusion-home .fusion-intro-copy .fusion-heading {
+    font-size: clamp(33px, 8.2vw, 46px);
+    line-height: 1.17;
+  }
+  .fusion-home .fusion-gallery-media { min-height: 280px; }
+  .fusion-home .fusion-gallery-content { padding: 26px 22px; }
+  .fusion-home .fusion-gallery-content h3 { font-size: clamp(26px, 6vw, 34px); }
+  .fusion-home .fusion-gallery-content p { font-size: 15px; }
+  .fusion-home .fusion-gallery-controls { justify-content: space-between; }
+  .fusion-home .fusion-card-grid { grid-template-columns: 1fr; }
+  .fusion-home .fusion-project-card:last-child { grid-column: auto; }
+  .fusion-home .fusion-step { grid-template-columns: 36px minmax(0, 1fr); }
+  .fusion-home .fusion-unit h3 { font-size: 32px; }
+  .page-inner-hero h1 { font-size: clamp(34px, 9.3vw, 53px); line-height: 1.18; }
+  .chroma-timeline-tabs button { min-width: 0; }
+  .chroma-news-heading h2 { font-size: clamp(31px, 8vw, 43px); }
+  .chroma-news-card strong { font-size: 24px; }
+  .chroma-footer-main { min-width: 0; }
+}
+@media (max-width: 380px) {
+  .fusion-home .fusion-hero h1 { font-size: 35px; }
+  .fusion-home .fusion-button { gap: 12px; padding: 12px 15px; }
+  .fusion-home .fusion-section { padding-block: 64px; }
+  .fusion-home .fusion-gallery-content { padding: 21px 17px; }
+  .chroma-footer-nav { grid-template-columns: 1fr; }
+  .chroma-news-card > div:last-child { padding: 23px; }
+}
