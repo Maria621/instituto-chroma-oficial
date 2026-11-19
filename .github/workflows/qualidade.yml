@@ -24,5 +24,22 @@ jobs:
           node --check v31.js
           node --check fusion.js
           node --check timeline.js
+          node --check tests/browser-layout.mjs
       - name: Verificar HTML, links, CSS e arquivos
         run: node tests/validate-site.mjs
+
+  browser-layout:
+    name: Texto completo e navegação em telas reais
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter código
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Instalar navegador de testes
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Verificar cortes de texto e interações
+        run: node tests/browser-layout.mjs
