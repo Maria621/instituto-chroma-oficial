@@ -101,7 +101,7 @@
     }
   });
 
-  const desktop = window.matchMedia('(min-width: 1181px)');
+  const desktop = window.matchMedia('(min-width: 1301px)');
   const onBreakpointChange = () => {
     if (desktop.matches && panel && !panel.hidden) setMobile(false);
   };
