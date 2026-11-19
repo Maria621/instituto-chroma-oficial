@@ -30,7 +30,10 @@ jobs:
           node --check tests/visual-review.mjs
           node --check scripts/verify-production.mjs
           node --check scripts/build-pages.mjs
+          node --check scripts/build-css.mjs
           node --check tests/contact-api.test.mjs
+      - name: Garantir CSS gerado a partir de módulos e tokens
+        run: node scripts/build-css.mjs --check
       - name: Garantir que HTML publicado corresponde aos componentes
         run: node scripts/build-pages.mjs --check
       - name: Verificar HTML, links, CSS e arquivos

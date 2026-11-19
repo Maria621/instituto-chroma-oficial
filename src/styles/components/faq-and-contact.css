@@ -1,0 +1,15 @@
+/* V4.1: FAQ, retorno de contato e revisão editorial */
+.v4-faq-section{padding:clamp(64px,8vw,120px) 0;background:#f4f7fb;color:#082e62}
+.v4-faq-section h2{font-size:clamp(36px,4vw,66px);line-height:1.08;max-width:810px;letter-spacing:-.045em;margin:16px 0 32px}
+.v4-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:28px}
+.v4-faq-grid details{background:white;border:1px solid #dce4ef;border-radius:12px;padding:22px 24px}
+.v4-faq-grid summary{cursor:pointer;font-weight:700;font-size:17px;line-height:1.4}
+.v4-faq-grid details[open]{border-color:#73a6d7}
+.v4-faq-grid details p{color:#3d536b;margin:14px 0 0;line-height:1.65}
+.v4-faq-grid summary:focus-visible{outline:3px solid #1662b3;outline-offset:5px}
+.v4-method-note{margin:16px 0 22px!important;font-size:16px;line-height:1.65}
+.v4-fallback-contact{font-size:13px;line-height:1.6;margin-top:8px}
+.v4-fallback-contact a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+[data-chroma-form] button[type=submit]:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:700px){.v4-faq-grid{grid-template-columns:1fr}.v4-faq-grid details{padding:18px}}
+

@@ -1,6 +1,6 @@
 
 /* V3.1 · navegação, ajustes de imagem e campanhas */
-:root{--chroma-focus:#ffe33a}
+
 .chroma-header-v31{gap:clamp(16px,1.6vw,32px);padding-inline:clamp(22px,3.5vw,64px)}
 .chroma-header-v31 .chroma-brand-link{display:inline-flex;flex:none;position:relative;z-index:5}
 .chroma-header-v31 .brand-official-image{width:clamp(168px,16vw,224px);max-width:none;height:auto;object-fit:contain}
