@@ -554,3 +554,23 @@ html.fusion-enhanced [data-fusion-reveal]:not(.is-visible) {
 @media(max-width:480px) {
   .chroma-unit-addendum>a { width: 100%; justify-content: space-between; }
 }
+
+
+/* Identificação visível: material conceitual não é fotografia de unidades. */
+.chroma-practice-media::before {
+  content: "IMAGEM CONCEITUAL";
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 15px;
+  padding: 7px 9px;
+  border: 1px solid rgba(255,255,255,.52);
+  border-radius: 4px;
+  background: rgba(6,29,63,.68);
+  color: white;
+  font: 800 9px/1.15 var(--sans);
+  letter-spacing: .09em;
+}
+@media(max-width:480px) {
+  .chroma-practice-media::before {font-size:8px;top:10px;right:10px;}
+}
