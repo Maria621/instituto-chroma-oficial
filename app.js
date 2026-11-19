@@ -1,15 +1,33 @@
 (()=>{'use strict';
 const header=document.querySelector('#header');
 const panel=document.querySelector('#mobile-panel');
-const isHome=!!document.querySelector('section.hero#inicio');
+const isHome=!!document.querySelector('section.hero#inicio, section.fusion-hero#inicio');
 const logo=header?.querySelector('.brand-official-image');
 const logoWhite='assets/logo-instituto-chroma-branco.png';
 const logoNavy='assets/logo-instituto-chroma.png';
 function onScroll(){if(!header)return;const solid=!isHome||scrollY>36||!!(panel&&!panel.hidden);header.classList.toggle('header-solid',solid);header.querySelector('.brand')?.classList.toggle('brand-light',!solid);if(logo){const next=solid?logoNavy:logoWhite;if(logo.dataset.chromaLogo!==next){logo.dataset.chromaLogo=next;logo.src=window.__chromaAssets?.[next]||next}}}
 window.chromaHeaderSync=onScroll;window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+document.documentElement.classList.add('chroma-js');
 const methods=[...document.querySelectorAll('.method-step')];
-function selectMethod(i){methods.forEach((b,j)=>{b.classList.toggle('active',i===j);b.setAttribute('aria-selected',String(i===j));let txt=b.querySelector('.method-step-main>span');if(txt)txt.style.display=i===j?'block':'none';let plus=b.querySelector('.method-plus');if(plus)plus.textContent=i===j?'−':'+'});const lab=document.getElementById('method-label');if(lab)lab.textContent='PERSPECTIVA DE APRENDIZAGEM'}
-methods.forEach((b,i)=>b.addEventListener('click',()=>selectMethod(i)));
+function selectMethod(i){
+  methods.forEach((button,index)=>{
+    const expanded=index===i;
+    button.classList.toggle('active',expanded);
+    button.setAttribute('aria-expanded',String(expanded));
+    const detail=button.querySelector('.method-step-main>span');
+    if(detail){
+      if(!detail.id)detail.id='method-detail-'+index;
+      button.setAttribute('aria-controls',detail.id);
+      detail.hidden=!expanded;
+    }
+    const symbol=button.querySelector('.method-plus');
+    if(symbol)symbol.textContent=expanded?'−':'+';
+  });
+  const label=document.getElementById('method-label');
+  if(label)label.textContent='ETAPAS DA APRENDIZAGEM';
+}
+methods.forEach((button,index)=>button.addEventListener('click',()=>selectMethod(index)));
+if(methods.length)selectMethod(0);
 const experience=[['Descobrir','Tudo começa com uma nova pergunta.','O aprendizado ganha sentido quando existe espaço para curiosidade, investigação e novas ideias.','CURIOSIDADE / DESCOBERTA','orbit'],['Praticar','Conhecimento que sai do papel.','A prática cria oportunidades de experimentar, rever caminhos e transformar conteúdo em repertório.','PRÁTICA / EXPERIMENTAÇÃO','grid'],['Evoluir','Crescer é um processo contínuo.','Cada etapa pode fortalecer competências, autonomia e a confiança para enfrentar novos desafios.','AUTONOMIA / DESENVOLVIMENTO','wave']];let activeExperience=0;
 function chooseExperience(i){activeExperience=(i+experience.length)%experience.length;const e=experience[activeExperience];const w=document.getElementById('exp-word');if(w)w.innerHTML=e[0]+'<span>.</span>';for(const [id,value]of [['exp-counter','EXPERIÊNCIA CHROMA'],['exp-title',e[1]],['exp-copy',e[2]],['exp-tag',e[3]]]){const el=document.getElementById(id);if(el)el.textContent=value}document.querySelectorAll('.experience-dots button').forEach((b,j)=>{b.classList.toggle('current',activeExperience===j);b.setAttribute('aria-pressed',String(activeExperience===j))});const visual=document.querySelector('#experience-art .visual-art');if(visual&& !visual.classList.contains('visual-has-image'))visual.className='visual-art visual-'+e[4]}
 document.querySelectorAll('.experience-dots button').forEach((b,i)=>b.addEventListener('click',()=>chooseExperience(i)));const nav=document.querySelectorAll('.experience-buttons button');if(nav.length===2){nav[0].addEventListener('click',()=>chooseExperience(activeExperience-1));nav[1].addEventListener('click',()=>chooseExperience(activeExperience+1))}
