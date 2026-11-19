@@ -105,6 +105,8 @@ try {
     [{ ...valid, email: 'not an email' }, 400],
     [{ ...valid, email: 'x@y.org\r\nBcc:bot@evil.org' }, 400],
     [{ ...valid, nome: '' }, 400],
+    [{ ...valid, nome: 'Nome\r\nBcc: spammer@host.example' }, 400],
+    [{ ...valid, telefone: '123\nMensagem falsa' }, 400],
     [{ ...valid, unidade: 'Unidade inexistente' }, 400],
     [{ ...valid, perfil: 'Admin' }, 400],
     [{ ...valid, assunto: 'Outro inválido' }, 400],
