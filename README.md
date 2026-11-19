@@ -24,10 +24,15 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 ├── contato.html                 # Atendimento
 ├── privacidade.html             # Minuta de privacidade
 ├── assets/                      # Artes e recursos estáticos
-├── style.css                    # Base histórica (ainda não consolidada)
-├── fusion.css                   # Componentes editoriais da home
-├── v31.css                      # Navegação, campanhas e componentes de notícias
-├── quality.css                  # Tokens, tipografia e ajustes transversais
+├── src/styles/                  # Módulos fonte: base/, components/, pages/ e quality/
+├── src/styles/tokens.css        # Tokens de cores, fontes e espaçamentos
+├── src/styles/manifest.json     # Ordem explícita da cascata
+├── scripts/build-css.mjs       # Gerador e verificador de CSS público
+├── tokens.css                   # Tokens gerados para o navegador
+├── style.css                    # Base legada gerada
+├── v31.css                      # Componentes legados gerados
+├── fusion.css                   # Editorial da home gerado
+├── quality.css                  # Correções e acessibilidade geradas
 ├── app.js                       # Cabeçalho, método e interações legadas (sem formulário)
 ├── contact.js                   # Estado e validação do formulário de contato
 ├── v31.js                       # Navegação e ampliador de artes
@@ -43,7 +48,7 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 └── .github/workflows/qualidade.yml
 ```
 
-O código é **HTML/CSS/JavaScript estático gerado a partir de componentes de origem**, sem framework de interface. Cabeçalho, rodapé e link de acessibilidade agora têm fonte única em `src/components/`, e o HTML final é gerado no build; `style.css` e `quality.css` contêm regras legadas acumuladas. Esta é uma dívida técnica conhecida, não uma arquitetura que deve ser perpetuada.
+O código é **HTML/CSS/JavaScript estático gerado a partir de componentes de origem**, sem framework de interface. Cabeçalho, rodapé e link de acessibilidade agora têm fonte única em `src/components/`, e o HTML final é gerado no build; Os CSS públicos agora são gerados a partir dos módulos de `src/styles/`; regras legadas acumuladas continuam controladas por regressão visual. Esta é uma dívida técnica conhecida, não uma arquitetura que deve ser perpetuada.
 
 ## Responsabilidades e critérios de desenvolvimento
 
@@ -82,3 +87,7 @@ O formulário **continua desativado por padrão** até que e-mail, Turnstile, do
 ## Componentes HTML estáticos — Etapa 3
 
 Para editar uma página, altere `src/pages/<pagina>.html` e execute `node scripts/build-pages.mjs`. Para alterar a navegação ou rodapé em todas as páginas, edite `src/components/`. O navegador continua recebendo HTML completo, sem dependência de JavaScript para gerar a estrutura. Antes de qualquer merge, `node scripts/build-pages.mjs --check` deve mostrar **0 divergências**. Ver `ETAPA_3_COMPONENTES_V14.md`.
+
+## Etapa 4 — Sistema CSS modular
+
+O visual aprovado foi mantido enquanto os tokens passaram para **uma única origem** em `src/styles/tokens.css` (fontes Manrope/DM Sans, cores e medidas). Edite os módulos de `src/styles/`, não os CSS gerados da raiz. Execute `node scripts/build-css.mjs` e confirme `node scripts/build-css.mjs --check`; o CI impede CSS fora de sincronia e novos `!important` acima do limite legado de 55. Veja [ETAPA_4_CSS_V15.md](ETAPA_4_CSS_V15.md).
