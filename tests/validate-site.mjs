@@ -9,6 +9,10 @@ import { Script } from 'node:vm';
 
 const root = resolve(process.cwd());
 const htmlFiles = readdirSync(root).filter(name => name.endsWith('.html'));
+const sourcePages = readdirSync(join(root, 'src', 'pages')).filter(name => name.endsWith('.html'));
+if (sourcePages.length !== htmlFiles.length || sourcePages.some(name => !htmlFiles.includes(name))) {
+  throw Error('A lista de templates não corresponde às páginas publicadas');
+}
 const errors = [];
 const htmlCache = new Map();
 const htmlOf = file => {

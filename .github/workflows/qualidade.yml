@@ -29,7 +29,10 @@ jobs:
           node --check tests/browser-layout.mjs
           node --check tests/visual-review.mjs
           node --check scripts/verify-production.mjs
+          node --check scripts/build-pages.mjs
           node --check tests/contact-api.test.mjs
+      - name: Garantir que HTML publicado corresponde aos componentes
+        run: node scripts/build-pages.mjs --check
       - name: Verificar HTML, links, CSS e arquivos
         run: node tests/validate-site.mjs
       - name: Testar a segurança e disponibilidade do contato
