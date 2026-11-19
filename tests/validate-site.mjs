@@ -54,7 +54,7 @@ for (const page of htmlFiles) {
   if (!html.includes('quality.css')) errors.push(page + ': camada de estilo V6 ausente');
 }
 
-for (const file of ['app.js', 'v31.js', 'fusion.js', 'timeline.js']) {
+for (const file of ['app.js', 'v31.js', 'fusion.js', 'timeline.js', 'contact.js']) {
   try { new Script(readFileSync(join(root, file), 'utf8'), { filename: file }); }
   catch (error) { errors.push(file + ': ' + error.message); }
 }
@@ -77,7 +77,7 @@ const required = {
   'nossa-escola.html': ['id="linha-do-tempo"', 'data-chroma-timeline', 'src="timeline.js"'],
   'nossa-essencia.html': ['class="page-essence"', 'Missão', 'Visão', 'Valores'],
   'metodologia.html': ['Aplicação orientada', 'class="method-step'],
-  'contato.html': ['data-chroma-form', 'Instagram'],
+  'contato.html': ['data-chroma-form', 'data-chroma-challenge', 'src="contact.js"', 'Instagram'],
   'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"']
 };
 for (const [page, fragments] of Object.entries(required)) {
@@ -86,6 +86,17 @@ for (const [page, fragments] of Object.entries(required)) {
     if (!content.includes(fragment)) errors.push(page + ': elemento V7 ausente: ' + fragment);
   }
 }
+// Contato deve ser carregado apenas na página de atendimento, não globalmente.
+for (const page of htmlFiles.filter(page => page !== 'contato.html')) {
+  if (htmlOf(join(root, page)).includes('src="contact.js"')) {
+    errors.push(page + ': controlador de formulário carregado fora da página de contato');
+  }
+}
+const backend = readFileSync(join(root, 'api/contato.js'), 'utf8');
+for (const marker of ['TURNSTILE_SECRET_KEY', 'CONTACT_PRIVACY_APPROVED', 'CONTACT_ALLOWED_ORIGIN', 'siteverify']) {
+  if (!backend.includes(marker)) errors.push('api/contato.js: proteção obrigatória ausente: ' + marker);
+}
+
 const footers = htmlFiles.map(file => htmlOf(join(root, file)).match(/<footer class="footer chroma-footer"[\s\S]*?<\/footer>/)?.[0]);
 if (footers.some(footer => !footer)) errors.push('Rodapé institucional V7 ausente em uma ou mais páginas');
 if (new Set(footers).size > 1) errors.push('Rodapés divergentes entre páginas');

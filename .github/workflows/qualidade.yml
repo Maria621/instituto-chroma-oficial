@@ -21,6 +21,7 @@ jobs:
       - name: Validar sintaxe JavaScript
         run: |
           node --check app.js
+          node --check contact.js
           node --check v31.js
           node --check fusion.js
           node --check timeline.js

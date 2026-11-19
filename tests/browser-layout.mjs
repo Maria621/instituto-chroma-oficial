@@ -248,6 +248,72 @@ try {
   await page.locator('[data-timeline-next]').click();
   if (await page.locator('#traj-panel-2').isHidden()) problems.push('Linha do tempo: seta seguinte não funciona');
   await page.close();
+
+  // Teste isolado do formulário ativo, sem serviço externo nem dados reais.
+  const contactPage = await browser.newPage({ viewport: { width: 1024, height: 900 } });
+  let simulateProviderFailure = true;
+  const submissions = [];
+  await contactPage.route('**/api/contato', async route => {
+    const request = route.request();
+    if (request.method() === 'GET') {
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true, acceptingMessages: true, turnstileSiteKey: 'site-key-test' })
+      });
+    }
+    submissions.push(JSON.parse(request.postData() || '{}'));
+    return route.fulfill({
+      status: simulateProviderFailure ? 502 : 200,
+      contentType: 'application/json',
+      body: JSON.stringify(simulateProviderFailure ? {ok:false} : {ok:true})
+    });
+  });
+  await contactPage.route('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', route =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: "window.turnstile={render(el,opts){window.__challengeOptions=opts;opts.callback('browser-test-token');return 'widget-1';},reset(){}};"
+    })
+  );
+  try {
+    await contactPage.goto(base + '/contato.html', { waitUntil: 'domcontentloaded' });
+    await contactPage.waitForFunction(() => document.querySelector('[data-chroma-form]')?.dataset.sendReady === 'true');
+    if (!(await contactPage.locator('.v3-form-grid').isVisible())) {
+      problems.push('Contato: campos ocultos mesmo com serviço e desafio simulados disponíveis');
+    }
+    if (await contactPage.locator('.chroma-contact-offline').isVisible()) {
+      problems.push('Contato: fallback offline visível indevidamente no modo ativo');
+    }
+    await contactPage.locator('input[name="nome"]').fill('Teste Chroma');
+    await contactPage.locator('input[name="email"]').fill('contato@example.org');
+    await contactPage.locator('select[name="unidade"]').selectOption({label:'Diadema'});
+    await contactPage.locator('select[name="perfil"]').selectOption({label:'Visitante'});
+    await contactPage.locator('select[name="assunto"]').selectOption({label:'Conhecer a escola'});
+    await contactPage.locator('textarea[name="mensagem"]').fill('Gostaria de conhecer os projetos pedagógicos e as aulas.');
+    await contactPage.locator('input[name="consentimento"]').check();
+
+    await contactPage.locator('button[type="submit"]').click();
+    await contactPage.waitForFunction(() =>
+      document.querySelector('.v3-form-notice')?.textContent.includes('Não foi possível confirmar'));
+    if (submissions.length !== 1 || submissions[0]['cf-turnstile-response'] !== 'browser-test-token') {
+      problems.push('Contato: token de desafio ausente ou requisição duplicada');
+    }
+    if ((await contactPage.locator('.v3-form-notice').innerText()).includes('encaminhada')) {
+      problems.push('Contato: falha do serviço exibida como sucesso');
+    }
+
+    simulateProviderFailure = false;
+    await contactPage.evaluate(() => window.__challengeOptions.callback('browser-test-token'));
+    await contactPage.locator('button[type="submit"]').click();
+    await contactPage.waitForFunction(() =>
+      document.querySelector('.v3-form-notice')?.textContent.includes('Solicitação encaminhada'));
+    if (submissions.length !== 2) {
+      problems.push('Contato: envio aceito não foi encaminhado exatamente uma vez');
+    }
+  } finally {
+    await contactPage.close();
+  }
 } finally {
   if (browser) await browser.close();
   await new Promise(resolve => server.close(resolve));

@@ -1184,3 +1184,20 @@ body { overflow-wrap: normal; }
   font-size: 13px;
   color: #315573;
 }
+
+
+/* Etapa 2 · Verificação anti-spam apenas quando o envio está autorizado. */
+[data-chroma-form]:not([data-send-ready="true"]) .chroma-challenge {
+  display: none;
+}
+.chroma-challenge {
+  display: flex;
+  align-items: center;
+  min-height: 66px;
+  min-width: 0;
+  margin: 15px 0;
+}
+[data-chroma-form] .v3-form-send:disabled {
+  cursor: not-allowed;
+  opacity: .66;
+}

@@ -3,12 +3,16 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const handler = require('../api/contato.js');
-const previous = {
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
-  CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
-  CONTACT_FROM_EMAIL: process.env.CONTACT_FROM_EMAIL,
-  fetch: globalThis.fetch
-};
+
+const configNames = [
+  'RESEND_API_KEY', 'CONTACT_TO_EMAIL', 'CONTACT_FROM_EMAIL',
+  'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY',
+  'CONTACT_ALLOWED_ORIGIN', 'CONTACT_PRIVACY_APPROVED'
+];
+const previous = Object.fromEntries(configNames.map(name => [name, process.env[name]]));
+const originalFetch = globalThis.fetch;
+const origin = 'https://instituto-chroma-oficial.vercel.app';
+
 const valid = {
   nome: 'Teste Chroma',
   email: 'contato@example.org',
@@ -16,77 +20,162 @@ const valid = {
   unidade: 'Diadema',
   perfil: 'Visitante',
   assunto: 'Conhecer a escola',
-  mensagem: 'Quero saber como visitar a unidade.',
-  consentimento: 'on'
+  mensagem: 'Gostaria de conversar com a equipe para agendar uma visita.',
+  consentimento: 'on',
+  website: '',
+  'cf-turnstile-response': 'token-valido-de-teste'
 };
-const mockRes = () => ({
-  statusCode: 200,
-  data: null,
-  headers: {},
+const response = () => ({
+  statusCode: 200, data: null, headers: {},
   setHeader(name, value) { this.headers[name.toLowerCase()] = value; return this; },
   status(value) { this.statusCode = value; return this; },
   json(value) { this.data = value; return this; }
 });
-let fetchCount = 0;
-const request = async (method, body, contentType = 'application/json') => {
-  const res = mockRes();
-  await handler({ method, body, headers: { 'content-type': contentType } }, res);
+const call = async (method, body, headers = {}) => {
+  const res = response();
+  await handler({
+    method,
+    body,
+    headers: { origin, 'content-type': 'application/json', ...headers }
+  }, res);
   return res;
 };
 
-try {
-  delete process.env.RESEND_API_KEY;
-  delete process.env.CONTACT_TO_EMAIL;
-  delete process.env.CONTACT_FROM_EMAIL;
-  let res = await request('GET');
-  assert.equal(res.statusCode, 200);
-  assert.equal(res.data.acceptingMessages, false, 'Form must not be enabled without provider settings');
-  res = await request('POST', valid);
-  assert.equal(res.statusCode, 503, 'Unavailable provider must reject POST');
+let calls = [];
+let turnstileResponse = { success: true, hostname: 'instituto-chroma-oficial.vercel.app', action: 'contato-institucional' };
+let resendResponse = { id: 'em_test_01' };
+let brokenService = '';
 
-  process.env.RESEND_API_KEY = 'test-key-not-real';
-  process.env.CONTACT_TO_EMAIL = 'inbox@example.org';
-  process.env.CONTACT_FROM_EMAIL = 'Chroma <sender@example.org>';
-  globalThis.fetch = async (url, opts) => {
+function mockNetwork() {
+  calls = [];
+  globalThis.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (brokenService === 'turnstile' && String(url).includes('siteverify')) throw Error('External error');
+    if (brokenService === 'mail' && String(url).includes('api.resend.com')) throw Error('External error');
+    if (String(url).includes('siteverify')) {
+      assert.equal(options.method, 'POST');
+      assert.equal(options.body.get('secret'), 'turnstile-secret-test');
+      assert.equal(options.body.get('response'), valid['cf-turnstile-response']);
+      return { ok: true, json: async () => turnstileResponse };
+    }
     assert.equal(url, 'https://api.resend.com/emails');
-    assert.equal(opts.method, 'POST');
-    fetchCount += 1;
-    return { ok: true };
+    assert.equal(options.method, 'POST');
+    assert.equal(JSON.parse(options.body).reply_to, valid.email);
+    return { ok: true, json: async () => resendResponse };
   };
-  res = await request('GET');
-  assert.equal(res.data.acceptingMessages, true, 'Form may be enabled once configured');
+}
 
-  const rejects = [
-    [{ ...valid, mensagem: '' }, 400],
+try {
+  for (const name of configNames) delete process.env[name];
+
+  let result = await call('GET');
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.data.acceptingMessages, false);
+  assert.equal(result.data.turnstileSiteKey, undefined);
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 503);
+
+  process.env.RESEND_API_KEY = 'resend-key-test';
+  process.env.CONTACT_TO_EMAIL = 'school@example.org';
+  process.env.CONTACT_FROM_EMAIL = 'Chroma <no-reply@example.org>';
+  process.env.TURNSTILE_SITE_KEY = 'turnstile-site-test';
+  process.env.TURNSTILE_SECRET_KEY = 'turnstile-secret-test';
+  process.env.CONTACT_ALLOWED_ORIGIN = origin;
+  process.env.CONTACT_PRIVACY_APPROVED = 'false';
+
+  result = await call('GET');
+  assert.equal(result.data.acceptingMessages, false, 'Privacy approval is mandatory');
+  process.env.CONTACT_PRIVACY_APPROVED = 'true';
+  delete process.env.TURNSTILE_SECRET_KEY;
+  assert.equal((await call('GET')).data.acceptingMessages, false, 'Challenge secret is mandatory');
+  process.env.TURNSTILE_SECRET_KEY = 'turnstile-secret-test';
+  process.env.CONTACT_ALLOWED_ORIGIN = 'http://unsafe.example.org';
+  assert.equal((await call('GET')).data.acceptingMessages, false, 'HTTPS origin required');
+  process.env.CONTACT_ALLOWED_ORIGIN = origin;
+
+  result = await call('GET');
+  assert.equal(result.data.acceptingMessages, true);
+  assert.equal(result.data.turnstileSiteKey, 'turnstile-site-test');
+  assert.equal(JSON.stringify(result.data).includes('turnstile-secret-test'), false, 'Never expose private keys');
+
+  mockNetwork();
+  const bad = [
     [{ ...valid, mensagem: 'curta' }, 400],
-    [{ ...valid, perfil: '' }, 400],
-    [{ ...valid, perfil: 'Perfil inválido' }, 400],
-    [{ ...valid, assunto: 'Assunto desconhecido' }, 400],
-    [{ ...valid, unidade: 'Outra unidade' }, 400],
-    [{ ...valid, email: 'nao-e-email' }, 400],
-    [{ ...valid, consentimento: '' }, 400],
-    [{ ...valid, telefone: '0'.repeat(40) }, 400],
-    [valid, 415, 'text/plain']
+    [{ ...valid, mensagem: '' }, 400],
+    [{ ...valid, email: 'not an email' }, 400],
+    [{ ...valid, email: 'x@y.org\r\nBcc:bot@evil.org' }, 400],
+    [{ ...valid, nome: '' }, 400],
+    [{ ...valid, nome: 'Nome\r\nBcc: spammer@host.example' }, 400],
+    [{ ...valid, telefone: '123\nMensagem falsa' }, 400],
+    [{ ...valid, unidade: 'Unidade inexistente' }, 400],
+    [{ ...valid, perfil: 'Admin' }, 400],
+    [{ ...valid, assunto: 'Outro inválido' }, 400],
+    [{ ...valid, consentimento: false }, 400],
+    [{ ...valid, telefone: 'x'.repeat(36) }, 400],
+    [{ ...valid, website: 'spam' }, 400],
+    [{ ...valid, 'cf-turnstile-response': '' }, 400],
+    [{ ...valid, 'cf-turnstile-response': 'x'.repeat(2049) }, 400],
+    [{ ...valid, mensagem: 'a'.repeat(6501) }, 413],
+    ['{', 400],
+    [[], 400],
+    [valid, 415, { 'content-type': 'text/plain' }],
+    [valid, 403, { origin: 'https://website-atacante.example' }]
   ];
-  for (const [body, expected, contentType] of rejects) {
-    res = await request('POST', body, contentType || 'application/json');
-    assert.equal(res.statusCode, expected, JSON.stringify(body).slice(0, 120));
-    assert.equal(res.data.ok, false);
+  for (const [payload, expected, headers] of bad) {
+    result = await call('POST', payload, headers || {});
+    assert.equal(result.statusCode, expected, JSON.stringify(payload).slice(0, 125));
+    assert.equal(result.data.ok, false);
   }
-  assert.equal(fetchCount, 0, 'Invalid requests must never reach the email provider');
-  res = await request('POST', valid);
-  assert.equal(res.statusCode, 200);
-  assert.equal(res.data.ok, true);
-  assert.equal(fetchCount, 1, 'Valid request must call provider exactly once');
+  assert.equal(calls.length, 0, 'Invalid input cannot invoke third-party services');
 
-  res = await request('PUT', valid);
-  assert.equal(res.statusCode, 405);
-  console.log('Contato: indisponibilidade segura, validações e envio simulado aprovados.');
+  turnstileResponse = { success: false };
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 403);
+  assert.equal(calls.length, 1, 'Invalid challenge never sends mail');
+
+  turnstileResponse = { success: true, hostname: 'attacker.example', action: 'contato-institucional' };
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 403);
+  assert.equal(calls.length, 2);
+
+  turnstileResponse = { success: true, hostname: 'instituto-chroma-oficial.vercel.app', action: 'other-action' };
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 403);
+  assert.equal(calls.length, 3);
+
+  turnstileResponse = { success: true, hostname: 'instituto-chroma-oficial.vercel.app', action: 'contato-institucional' };
+  brokenService = 'turnstile';
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 503);
+  brokenService = '';
+
+  mockNetwork();
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.data.ok, true);
+  assert.equal(calls.length, 2, 'Challenge verified before provider accepts mail');
+
+  resendResponse = {};
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 502, 'A provider without acceptance ID must not generate success');
+
+  resendResponse = { id: 'em_test_02' };
+  brokenService = 'mail';
+  result = await call('POST', valid);
+  assert.equal(result.statusCode, 502);
+  brokenService = '';
+
+  result = await call('PUT', valid);
+  assert.equal(result.statusCode, 405);
+  assert.equal(result.headers.allow, 'GET, POST');
+  assert.match(result.headers['cache-control'], /no-store/);
+  assert.equal(result.headers['x-content-type-options'], 'nosniff');
+
+  console.log('Contato seguro: configuração, consentimento, origem, desafio, validações e aceitação de e-mail aprovados.');
 } finally {
-  for (const [name, value] of Object.entries(previous)) {
-    if (name === 'fetch') continue;
-    if (value === undefined) delete process.env[name];
-    else process.env[name] = value;
+  for (const name of configNames) {
+    if (previous[name] === undefined) delete process.env[name];
+    else process.env[name] = previous[name];
   }
-  globalThis.fetch = previous.fetch;
+  globalThis.fetch = originalFetch;
 }
