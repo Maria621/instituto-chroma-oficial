@@ -27,6 +27,7 @@ jobs:
           node --check api/contato.js
           node --check tests/browser-layout.mjs
           node --check tests/visual-review.mjs
+          node --check scripts/verify-production.mjs
           node --check tests/contact-api.test.mjs
       - name: Verificar HTML, links, CSS e arquivos
         run: node tests/validate-site.mjs
