@@ -125,7 +125,7 @@ try {
           };
         });
         console.log('Banner ' + width + 'px: ' + JSON.stringify(hero));
-        const maxHeight = width >= 1280 ? 790 : width >= 760 ? 870 : 1080;
+        const maxHeight = width >= 1280 ? 790 : width >= 760 ? 870 : width <= 480 ? 800 : 900;
         if (hero.heroHeight > maxHeight) {
           problems.push(width + 'px: banner muito alto (' + hero.heroHeight + 'px / limite ' + maxHeight + 'px)');
         }
@@ -137,6 +137,48 @@ try {
             hero.frameOverflow !== 'visible' || !hero.pictureInViewport) {
           problems.push(width + 'px: arte principal ainda pode ser recortada');
         }
+      }
+      if (path === 'nossa-escola.html') {
+        if (!(await page.locator('#linha-do-tempo .chroma-history-list').count())) {
+          problems.push(width + 'px: link História não leva aos marcos de 2016');
+        }
+        if (!(await page.locator('#atividades-2026 [data-chroma-timeline]').count())) {
+          problems.push(width + 'px: faltam os registros de atividades de 2026');
+        }
+      }
+      if (path === 'contato.html') {
+        if (!(await page.locator('.chroma-contact-offline').isVisible())) {
+          problems.push(width + 'px: orientação de atendimento alternativo ausente');
+        }
+        if (await page.locator('.v3-form-grid').isVisible()) {
+          problems.push(width + 'px: formulário desativado ainda solicita dados');
+        }
+        if (!(await page.locator('.chroma-contact-offline a').isVisible())) {
+          problems.push(width + 'px: link para o canal institucional invisível');
+        }
+      }
+      if (path === 'nossa-escola.html') {
+        const contrast = await page.evaluate(() => {
+          const rgba = value => {
+            const parts = value.match(/[\\d.]+/g);
+            return parts ? parts.slice(0,3).map(Number) : [0,0,0];
+          };
+          const luminance = triplet => triplet.map(value => {
+            const c = value / 255;
+            return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+          }).reduce((sum,value,index) => sum + value * [0.2126,0.7152,0.0722][index],0);
+          const ratio = (a,b) => {
+            const x = luminance(rgba(a)), y = luminance(rgba(b));
+            return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05);
+          };
+          const label = document.querySelector('#traj-tab-0 small');
+          const footer = document.querySelector('.chroma-footer-bottom');
+          const tabRatio = ratio(getComputedStyle(label).color,getComputedStyle(label.closest('button')).backgroundColor);
+          const footerRatio = ratio(getComputedStyle(footer).color,getComputedStyle(footer.closest('.chroma-footer')).backgroundColor);
+          return {tabRatio, footerRatio};
+        });
+        if (contrast.tabRatio < 4.5) problems.push(width + 'px: contraste insuficiente nas abas (' + contrast.tabRatio.toFixed(2) + ':1)');
+        if (contrast.footerRatio < 4.5) problems.push(width + 'px: contraste insuficiente no rodapé (' + contrast.footerRatio.toFixed(2) + ':1)');
       }
     }
     // Navegação em janela responsiva.
