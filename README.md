@@ -25,11 +25,12 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 ├── fusion.css                   # Componentes editoriais da home
 ├── v31.css                      # Navegação, campanhas e componentes de notícias
 ├── quality.css                  # Tokens, tipografia e ajustes transversais
-├── app.js                       # Cabeçalho, método e contato (legado; separar no futuro)
+├── app.js                       # Cabeçalho, método e interações legadas (sem formulário)
+├── contact.js                   # Estado e validação do formulário de contato
 ├── v31.js                       # Navegação e ampliador de artes
 ├── fusion.js                    # Galeria da home
 ├── timeline.js                  # Abas da linha do tempo
-├── api/contato.js               # Endpoint do contato, dependente de configuração
+├── api/contato.js               # Endpoint de contato com proteção anti-automação e LGPD
 ├── tests/validate-site.mjs      # HTML, arquivos, âncoras, sintaxe e estrutura
 ├── tests/contact-api.test.mjs   # Testes simulados de segurança do contato
 ├── tests/browser-layout.mjs     # Layout e interações reais com Chrome
@@ -70,3 +71,7 @@ Planejar migração progressiva e testada para componentes reutilizáveis de cab
 ## Processo de publicação (Etapa 1)
 
 Ver [ETAPA_1_ESTABILIDADE_V12.md](ETAPA_1_ESTABILIDADE_V12.md) para o procedimento completo. A nova rotina inclui capturas antes/depois da proposta, diff visual e conferência do SHA no domínio real. Um teste de PR aprovado **não** significa que a produção foi atualizada. Regras de proteção da branch devem ser configuradas pelo administrador com os três checks do CI.
+
+## Etapa 2 — Contato institucional seguro
+
+O formulário **continua desativado por padrão** até que e-mail, Turnstile, domínio autorizado e aprovação da privacidade sejam configurados. Sua lógica fica isolada em `contact.js`, sem modificar a navegação ou as outras páginas. Ver [ETAPA_2_CONTATO_SEGURO_V13.md](ETAPA_2_CONTATO_SEGURO_V13.md) e `.env.example` antes de qualquer ativação; não inserir segredos no repositório.
