@@ -78,9 +78,9 @@ function validatePayload(p) {
     token: trim(p['cf-turnstile-response'])
   };
   if (
-    !validLength(values.nome, 2, 150) ||
+    !validLength(values.nome, 2, 150) || /[\r\n\u0000-\u001f\u007f]/.test(values.nome) ||
     !validLength(values.email, 5, 254) || !EMAIL.test(values.email) ||
-    !validLength(values.telefone, 0, 35) ||
+    !validLength(values.telefone, 0, 35) || /[\r\n\u0000-\u001f\u007f]/.test(values.telefone) ||
     !UNITS.has(values.unidade) || !PROFILES.has(values.perfil) ||
     !SUBJECTS.has(values.assunto) ||
     !validLength(values.mensagem, 10, 2000) ||
