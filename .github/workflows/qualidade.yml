@@ -30,7 +30,7 @@ jobs:
 
   browser-layout:
     name: Texto completo e navegação em telas reais
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Obter código
