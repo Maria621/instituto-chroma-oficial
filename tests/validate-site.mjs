@@ -54,7 +54,7 @@ for (const page of htmlFiles) {
   if (!html.includes('quality.css')) errors.push(page + ': camada de estilo V6 ausente');
 }
 
-for (const file of ['app.js', 'v31.js', 'fusion.js']) {
+for (const file of ['app.js', 'v31.js', 'fusion.js', 'timeline.js']) {
   try { new Script(readFileSync(join(root, file), 'utf8'), { filename: file }); }
   catch (error) { errors.push(file + ': ' + error.message); }
 }
@@ -69,6 +69,26 @@ for (const file of ['style.css', 'v31.css', 'fusion.css', 'quality.css']) {
   }
   if (depth !== 0) errors.push(file + ': desequilíbrio de chaves');
 }
+
+
+// Contratos editoriais e funcionais da revisão institucional V7.
+const required = {
+  'index.html': ['class="chroma-news-grid"', 'class="chroma-practice-grid"', 'data-fusion-gallery'],
+  'nossa-escola.html': ['id="linha-do-tempo"', 'data-chroma-timeline', 'src="timeline.js"'],
+  'nossa-essencia.html': ['class="page-essence"', 'Missão', 'Visão', 'Valores'],
+  'metodologia.html': ['Aplicação orientada', 'class="method-step'],
+  'contato.html': ['data-chroma-form', 'Instagram'],
+  'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"']
+};
+for (const [page, fragments] of Object.entries(required)) {
+  const content = htmlOf(join(root, page));
+  for (const fragment of fragments) {
+    if (!content.includes(fragment)) errors.push(page + ': elemento V7 ausente: ' + fragment);
+  }
+}
+const footers = htmlFiles.map(file => htmlOf(join(root, file)).match(/<footer class="footer chroma-footer"[\s\S]*?<\/footer>/)?.[0]);
+if (footers.some(footer => !footer)) errors.push('Rodapé institucional V7 ausente em uma ou mais páginas');
+if (new Set(footers).size > 1) errors.push('Rodapés divergentes entre páginas');
 
 if (errors.length) {
   process.stderr.write('Falhas encontradas:\n' + errors.map(error => '- ' + error).join('\n') + '\n');
