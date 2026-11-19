@@ -1,0 +1,27 @@
+name: Qualidade do site institucional
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-check:
+    name: HTML, links, acessibilidade e scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Obter código
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Validar sintaxe JavaScript
+        run: |
+          node --check app.js
+          node --check v31.js
+          node --check fusion.js
+      - name: Verificar HTML, links, CSS e arquivos
+        run: node tests/validate-site.mjs
