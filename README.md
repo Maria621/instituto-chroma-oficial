@@ -8,7 +8,10 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 
 ```text
 /
-├── index.html                   # Apresentação institucional
+├── src/pages/                   # Fonte editorial de cada uma das 12 páginas
+├── src/components/              # Cabeçalho, rodapé e link de acessibilidade compartilhados
+├── scripts/build-pages.mjs      # Gerador determinístico de HTML estático
+├── index.html                   # Página inicial gerada para o Vercel
 ├── nossa-escola.html            # História e marcos institucionais
 ├── nossa-essencia.html          # Missão, visão e valores
 ├── metodologia.html             # Percurso de aprendizagem
@@ -40,7 +43,7 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 └── .github/workflows/qualidade.yml
 ```
 
-O código atual é **HTML/CSS/JavaScript sem um framework de componentes**. O rodapé e o cabeçalho ainda estão duplicados entre páginas; `style.css` e `quality.css` contêm regras legadas acumuladas. Esta é uma dívida técnica conhecida, não uma arquitetura que deve ser perpetuada.
+O código é **HTML/CSS/JavaScript estático gerado a partir de componentes de origem**, sem framework de interface. Cabeçalho, rodapé e link de acessibilidade agora têm fonte única em `src/components/`, e o HTML final é gerado no build; `style.css` e `quality.css` contêm regras legadas acumuladas. Esta é uma dívida técnica conhecida, não uma arquitetura que deve ser perpetuada.
 
 ## Responsabilidades e critérios de desenvolvimento
 
@@ -75,3 +78,7 @@ Ver [ETAPA_1_ESTABILIDADE_V12.md](ETAPA_1_ESTABILIDADE_V12.md) para o procedimen
 ## Etapa 2 — Contato institucional seguro
 
 O formulário **continua desativado por padrão** até que e-mail, Turnstile, domínio autorizado e aprovação da privacidade sejam configurados. Sua lógica fica isolada em `contact.js`, sem modificar a navegação ou as outras páginas. Ver [ETAPA_2_CONTATO_SEGURO_V13.md](ETAPA_2_CONTATO_SEGURO_V13.md) e `.env.example` antes de qualquer ativação; não inserir segredos no repositório.
+
+## Componentes HTML estáticos — Etapa 3
+
+Para editar uma página, altere `src/pages/<pagina>.html` e execute `node scripts/build-pages.mjs`. Para alterar a navegação ou rodapé em todas as páginas, edite `src/components/`. O navegador continua recebendo HTML completo, sem dependência de JavaScript para gerar a estrutura. Antes de qualquer merge, `node scripts/build-pages.mjs --check` deve mostrar **0 divergências**. Ver `ETAPA_3_COMPONENTES_V14.md`.
