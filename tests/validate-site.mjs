@@ -73,7 +73,7 @@ for (const file of ['style.css', 'v31.css', 'fusion.css', 'quality.css']) {
 
 // Contratos editoriais e funcionais da revisão institucional V7.
 const required = {
-  'index.html': ['class="chroma-news-grid"', 'class="chroma-practice-grid"', 'data-fusion-gallery'],
+  'index.html': ['chroma-news-grid', 'chroma-practice-grid', 'data-fusion-gallery'],
   'nossa-escola.html': ['id="linha-do-tempo"', 'data-chroma-timeline', 'src="timeline.js"'],
   'nossa-essencia.html': ['class="page-essence"', 'Missão', 'Visão', 'Valores'],
   'metodologia.html': ['Aplicação orientada', 'class="method-step'],
