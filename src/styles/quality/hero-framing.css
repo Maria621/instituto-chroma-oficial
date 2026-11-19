@@ -1,0 +1,209 @@
+/* ============================================================================
+   V9 · Banner editorial compacto
+   A imagem real é horizontal (1100 × 619). Preservar o quadro completo.
+   Mantém o contraste, a tipografia mista e a estrutura em duas colunas.
+   ============================================================================ */
+.fusion-home .fusion-hero {
+  height: auto;
+  min-height: 0;
+  padding: clamp(107px, 8.2vw, 131px) 0 clamp(45px, 4.1vw, 65px);
+}
+.fusion-home .fusion-hero-grid {
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+  gap: clamp(28px, 4vw, 65px);
+  align-items: center;
+}
+.fusion-home .fusion-hero-copy { min-width: 0; }
+.fusion-home .fusion-hero h1 {
+  max-width: 21ch;
+  margin: 20px 0 19px;
+  font-size: clamp(41px, 4.05vw, 59px);
+  line-height: 1.135;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.fusion-home .fusion-hero h1 em { letter-spacing: -.035em; }
+.fusion-home .fusion-hero p {
+  max-width: 62ch;
+  margin: 0 0 25px;
+  font-size: clamp(15px, 1.17vw, 17px);
+  line-height: 1.75;
+}
+.fusion-home .fusion-hero-actions { gap: 12px 20px; }
+.fusion-home .fusion-hero-tick { bottom: 19px; }
+.fusion-home .fusion-hero-tick::after { height: 20px; }
+
+/* A arte passa a ser uma imagem horizontal completa, não um retrato cortado. */
+.fusion-home .fusion-visual {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 7px 0;
+}
+.fusion-home .fusion-visual::before {
+  width: 74%;
+  max-width: 410px;
+  left: 13%;
+  top: 0;
+}
+.fusion-home .fusion-hero-note {
+  position: static;
+  justify-self: start;
+  margin: 0 0 0 1%;
+  max-width: 100%;
+  color: #b8d5ef;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.fusion-home .fusion-visual-frame {
+  width: min(100%, 540px);
+  height: auto;
+  aspect-ratio: auto;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: rotate(1.5deg);
+}
+.fusion-home .fusion-visual-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1100 / 619;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  border: 5px solid rgba(255,255,255,.93);
+  border-radius: 12px 48px 14px 48px;
+  background: #103e73;
+  box-shadow: 0 20px 50px rgba(0,12,31,.35);
+  filter: saturate(.98) contrast(1.025);
+}
+.fusion-home .fusion-visual-frame::after { display: none; }
+.fusion-home .fusion-visual-caption {
+  position: static;
+  display: block;
+  margin: 12px auto 0;
+  max-width: 100%;
+  padding: 0 8px;
+  color: #d0e5f7;
+  font: 700 11px/1.55 var(--sans,Arial,sans-serif);
+  letter-spacing: .02em;
+  text-align: center;
+}
+.fusion-home .fusion-floating-card {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  justify-self: end;
+  width: min(310px, 78%);
+  max-width: 100%;
+  margin-right: clamp(3px, 4vw, 30px);
+  margin-top: -2px;
+  padding: 13px 17px;
+  border: 1px solid #dce9f8;
+  border-radius: 11px;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 10px 30px rgba(0,14,40,.22);
+}
+.fusion-home .fusion-floating-card b {
+  margin: 0 0 4px;
+  font-size: 19px;
+  line-height: 1.2;
+}
+.fusion-home .fusion-floating-card span {
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* Notebook e tablet: a composição permanece horizontal enquanto houver espaço. */
+@media (min-width: 760px) and (max-width: 1180px) {
+  .fusion-home .fusion-hero {
+    padding: 105px 0 44px;
+  }
+  .fusion-home .fusion-hero-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+    gap: clamp(18px, 2.8vw, 32px);
+  }
+  .fusion-home .fusion-hero h1 {
+    max-width: 100%;
+    font-size: clamp(35px, 4.4vw, 49px);
+    line-height: 1.16;
+  }
+  .fusion-home .fusion-hero p { font-size: 15px; line-height: 1.68; }
+  .fusion-home .fusion-visual-frame { max-width: 420px; }
+  .fusion-home .fusion-floating-card { width: 84%; margin-right: 0; }
+  .fusion-home .fusion-floating-card b { font-size: 17px; }
+  .fusion-home .fusion-floating-card span { font-size: 10px; }
+}
+@media (max-width: 759px) {
+  .fusion-home .fusion-hero {
+    min-height: 0;
+    padding: 104px 0 42px;
+  }
+  .fusion-home .fusion-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .fusion-home .fusion-hero h1 {
+    max-width: 100%;
+    margin: 16px 0;
+    font-size: clamp(35px, 7.6vw, 46px);
+    line-height: 1.16;
+  }
+  .fusion-home .fusion-hero p {
+    margin-bottom: 19px;
+    font-size: 15px;
+    line-height: 1.66;
+  }
+  .fusion-home .fusion-hero-actions { gap: 9px; }
+  .fusion-home .fusion-visual {
+    gap: 8px;
+    padding: 2px 0 0;
+    width: 100%;
+  }
+  .fusion-home .fusion-visual::before {
+    width: 65%;
+    left: 17%;
+  }
+  .fusion-home .fusion-visual-frame {
+    width: min(100%, 450px);
+    transform: rotate(.8deg);
+  }
+  .fusion-home .fusion-visual-frame img {
+    border-width: 4px;
+    border-radius: 9px 30px 10px 30px;
+  }
+  .fusion-home .fusion-visual-caption {
+    font-size: 10px;
+    margin-top: 8px;
+  }
+  .fusion-home .fusion-floating-card { display: none; }
+  .fusion-home .fusion-hero-note { font-size: 9px; }
+}
+@media (max-width: 480px) {
+  .fusion-home .fusion-hero {
+    padding: 95px 0 35px;
+  }
+  .fusion-home .fusion-hero-grid { gap: 18px; }
+  .fusion-home .fusion-hero h1 {
+    font-size: clamp(32px, 8.6vw, 39px);
+    line-height: 1.17;
+  }
+  .fusion-home .fusion-hero p {
+    font-size: 14px;
+    line-height: 1.67;
+  }
+  .fusion-home .fusion-hero-actions > * { min-height: 45px; }
+  .fusion-home .fusion-visual-frame { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fusion-home .fusion-visual-frame { transform: none; }
+}
+
+

@@ -1,0 +1,32 @@
+{
+  "description": "Fontes CSS em ordem de cascata, geradas para a raiz.",
+  "outputs": {
+    "style.css": [
+      "src/styles/base/foundation.css",
+      "src/styles/base/cinematic-sections.css",
+      "src/styles/base/responsive-and-assets.css",
+      "src/styles/base/institutional-brand.css",
+      "src/styles/base/navigation-and-layouts.css",
+      "src/styles/base/editorial-pages.css",
+      "src/styles/base/news-and-contact.css"
+    ],
+    "v31.css": [
+      "src/styles/components/navigation-gallery.css",
+      "src/styles/components/institutional-details.css",
+      "src/styles/components/faq-and-contact.css",
+      "src/styles/components/navbar-and-media.css",
+      "src/styles/components/partnerships.css"
+    ],
+    "fusion.css": [
+      "src/styles/pages/home-editorial.css",
+      "src/styles/pages/home-responsive.css"
+    ],
+    "quality.css": [
+      "src/styles/quality/foundations.css",
+      "src/styles/quality/brand-presentation.css",
+      "src/styles/quality/readability.css",
+      "src/styles/quality/hero-framing.css",
+      "src/styles/quality/accessibility-and-contact.css"
+    ]
+  }
+}

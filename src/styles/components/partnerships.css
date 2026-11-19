@@ -1,0 +1,46 @@
+/* V4.3 — parcerias e controle explícito da navegação */
+.chroma-header-v31 .nav-dropdown-panel{z-index:30}
+.chroma-header-v31 .nav-dropdown-toggle[aria-expanded="false"]+.nav-dropdown-panel{opacity:0;visibility:hidden;transform:translateY(-8px);pointer-events:none}
+.chroma-header-v31 .nav-dropdown-toggle[aria-expanded="true"]+.nav-dropdown-panel{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.v6-home-partners,.v6-partnership-main{background:#f2f6fb;color:#092d5b;padding:clamp(72px,9vw,126px) 0}
+.v6-home-partners-head{display:grid;grid-template-columns:1.1fr .7fr;gap:55px;align-items:end;margin-bottom:38px}
+.v6-home-partners h2,.v6-contact-partners h2,.v6-partnership-intro h2{font-size:clamp(36px,4.9vw,66px);line-height:1.09;letter-spacing:-.045em;margin:12px 0}
+.v6-home-partners em,.v6-contact-partners em,.v6-partnership-main em{color:#2a7abd;font-weight:400}
+.v6-home-partners-head>p,.v6-partnership-intro>p{font-size:18px;line-height:1.7;color:#46617d}
+.v6-home-partners-grid,.v6-contact-partners-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.v6-partner-tile{display:flex;flex-direction:column;align-items:flex-start;gap:17px;min-height:325px;padding:clamp(26px,3.5vw,46px);border:1px solid #baccdf;background:#fff;color:#0b305e;transition:transform .2s,box-shadow .2s}
+.v6-partner-tile:hover{transform:translateY(-4px);box-shadow:0 20px 40px #0a356222}
+.v6-partner-symbol{border:1px solid #b1cbe5;border-radius:50%;width:39px;height:39px;display:grid;place-items:center;font-size:21px}
+.v6-partner-type,.v6-partnership-index{font:800 11px var(--sans);letter-spacing:.16em;color:#2a76bd}
+.v6-partner-tile strong{font-size:clamp(26px,3vw,38px);line-height:1.13;letter-spacing:-.025em}
+.v6-partner-tile>span:not(.v6-partner-symbol):not(.v6-partner-type){font-size:15px;line-height:1.6;color:#536a83}
+.v6-partner-tile b{font-size:13px;color:#0b5d9f;margin-top:auto;padding-top:10px}
+.v6-partner-tile-dark{background:#0a336a;border-color:#0a336a;color:white}
+.v6-partner-tile-dark .v6-partner-type,.v6-partner-tile-dark b{color:#c4e2ff}
+.v6-partner-tile-dark .v6-partner-symbol{border-color:#ffffff77}
+.v6-partner-tile-dark>span:not(.v6-partner-symbol):not(.v6-partner-type){color:#d5e4f4}
+.v6-partnership-intro{max-width:900px;margin-bottom:52px}
+.v6-partnership-block{display:grid;grid-template-columns:.62fr 1fr;gap:clamp(30px,5vw,80px);padding:clamp(40px,6vw,78px) 0;border-top:1px solid #c8d7e8;scroll-margin-top:110px}
+.v6-partnership-side{min-height:320px;background:radial-gradient(circle at 80% 20%,#2c7bc2,transparent 50%),#0a315e;color:white;display:flex;flex-direction:column;justify-content:space-between;padding:31px}
+.v6-partnership-index{color:#d6eaff}
+.v6-partnership-glyph{font-size:clamp(110px,14vw,190px);line-height:1}
+.v6-partnership-block-secondary .v6-partnership-side{background:radial-gradient(circle at 80% 20%,#89c9fa,transparent 52%),#175e9c}
+.v6-partnership-content h3{font-size:clamp(31px,3.8vw,54px);line-height:1.1;letter-spacing:-.035em;margin:15px 0 25px}
+.v6-partnership-content p{font-size:17px;line-height:1.78;color:#4e6580}
+.v6-partner-cta{display:inline-flex;padding:17px 22px;background:#0b3c75;color:white;font:700 14px var(--sans);margin-top:16px}
+.v6-partner-cta:hover{background:#1c6caf}
+.v6-partnership-how{display:grid;grid-template-columns:1fr 1fr;gap:55px;padding:clamp(28px,4vw,60px);background:#e5f0fb}
+.v6-partnership-how h2{font-size:clamp(27px,3.2vw,47px);line-height:1.18}
+.v6-partnership-how p{line-height:1.75;color:#48617c}
+.v6-partnership-how a{color:#125e9c;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.v6-partnership-note{font-size:13px}
+.v6-contact-partners{background:#ebf3fa;padding:clamp(56px,7vw,100px) 0;color:#092e5c}
+.v6-contact-partners h2{max-width:840px;margin:12px 0 30px}
+.v6-contact-partners-grid a{background:#fff;border:1px solid #c4d7e9;padding:32px;display:flex;flex-direction:column;gap:14px}
+.v6-contact-partners-grid a:hover{border-color:#1667aa}
+.v6-contact-partners-grid strong{font-size:25px;color:#0a2d5d}
+.v6-contact-partners-grid span{line-height:1.6;color:#4c6580}
+.v6-contact-partners-grid b{font-size:13px;margin-top:auto;color:#0a5c9c}
+#atendimento{scroll-margin-top:100px}
+@media(max-width:850px){.v6-home-partners-head,.v6-home-partners-grid,.v6-contact-partners-grid,.v6-partnership-block,.v6-partnership-how{grid-template-columns:1fr}.v6-partnership-side{min-height:205px}.v6-home-partners-head{gap:15px}}
+@media(prefers-reduced-motion:reduce){.v6-partner-tile{transition:none}}

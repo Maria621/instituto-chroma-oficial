@@ -1,6 +1,6 @@
 /* CHROMA FUSÃO V5 · Camada editorial, construída sobre o sistema V4.3.
    Paleta institucional preservada. Não altera os arquivos dos logotipos. */
-:root{--fusion-navy:#061d3f;--fusion-blue:#0b4a91;--fusion-sky:#e8f3ff;--fusion-ice:#f5f8fc;--fusion-ink:#09213f;--fusion-muted:#5a6e84;--fusion-yellow:#ffdf40;--fusion-max:1320px}
+
 html{scroll-behavior:smooth;scroll-padding-top:100px}
 body{overflow-x:hidden}
 body.fusion-home{color:var(--fusion-ink);background:#fff}

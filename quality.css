@@ -5,16 +5,7 @@
  */
 
 /* 1. Tokens: consistência entre a capa e as páginas internas. */
-:root {
-  --quality-ink: #09294f;
-  --quality-blue: #0b4b90;
-  --quality-navy: #061d3f;
-  --quality-yellow: #ffe043;
-  --quality-surface: #f5f8fc;
-  --quality-border: #dce6f1;
-  --quality-text-muted: #53687f;
-  --quality-radius: 12px;
-}
+
 html { scroll-padding-top: 92px; }
 body { overflow-x: clip; line-height: 1.65; }
 :where(a, button, input, select, textarea):focus-visible {
@@ -224,15 +215,7 @@ html.fusion-enhanced [data-fusion-reveal]:not(.is-visible) {
    ========================================================================== */
 
 /* Sistema tipográfico e de espaços mais previsível */
-:root {
-  --brand-space-1: 8px;
-  --brand-space-2: 16px;
-  --brand-space-3: 24px;
-  --brand-space-4: 40px;
-  --brand-space-5: 64px;
-  --brand-space-6: 104px;
-  --brand-content: 1320px;
-}
+
 :where(.chroma-trajectory, .chroma-news-strip) { color: var(--quality-ink); }
 :where(.chroma-trajectory, .chroma-news-strip) * { box-sizing: border-box; }
 :where(.chroma-trajectory, .chroma-news-strip) h2,
@@ -581,10 +564,7 @@ html.fusion-enhanced [data-fusion-reveal]:not(.is-visible) {
    Conteúdo pode aumentar ou mudar sem romper a composição. Evitar truncamento,
    alturas fixas sobre texto e regras nowrap em interfaces com várias linhas.
    ============================================================================ */
-:root {
-  --chroma-reading-width: 72ch;
-  --chroma-layout-gap: clamp(22px, 3.1vw, 56px);
-}
+
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { overflow-wrap: normal; }
 :where(main, section, article, .container, .fusion-wrap, .fusion-hero-copy,

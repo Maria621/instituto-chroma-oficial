@@ -1,0 +1,33 @@
+/* CHROMA SIGNATURE / direção institucional validada com os ativos recebidos. */
+
+.brand-official-image{height:auto;max-width:236px;width:236px;max-height:60px;object-fit:contain;object-position:left center}
+.site-header.header-solid .brand-official-image{max-height:49px}
+.hero{background:#052756}
+.hero:before{background:linear-gradient(90deg,#05275b 0%,#052c66 53%,#062c67 100%)}
+.hero-photo{z-index:1;left:auto;right:0;width:77%;height:100%;}
+.hero-photo .photograph{object-fit:cover;object-position:70% 50%;filter:saturate(.99) contrast(1.02)}
+.hero-photo-overlay{background:linear-gradient(90deg,#05285e 0%,rgba(5,40,94,.86) 12%,rgba(5,40,94,.36) 41%,rgba(5,40,94,.03) 78%),linear-gradient(0deg,rgba(3,18,46,.40),transparent 30%)}
+.hero-atmosphere-with-photo{opacity:0;display:none}
+.hero-photo~.hero-noise{opacity:.045}
+.hero-content{padding-top:106px}
+.hero h1{max-width:880px;font-size:clamp(65px,6.75vw,106px);line-height:1.08;text-shadow:0 8px 40px #031c4550}
+.hero h1 em{color:#fce354}
+.hero-enddot{color:var(--chroma-yellow)}
+.hero-content .eyebrow{color:#fff}
+.hero-content .eyebrow-dot{background:var(--chroma-yellow)}
+.hero-bottom p{color:#edf5ff;text-shadow:0 2px 14px #03245980}
+.hero-topline{color:#cde2ff}
+.hero-footer{color:#dbe8f7}
+.hero .pill-link-light{background:#fff;color:#072852}
+.hero .pill-arrow{background:var(--chroma-yellow);color:#082654}
+.eyebrow-dot{background:#ffda10}
+.essence-desc p{font-size:14px;line-height:1.8;color:#cfdbeb;max-width:620px}
+.essence-item:last-child .essence-desc p{color:#fff;font-weight:600}
+.essence-heading{color:#fff}
+.essence-item:nth-child(2) .essence-heading{color:var(--chroma-yellow)}
+.essence-bottomnote{display:none}
+.gallery-disclaimer{opacity:.77}
+@media(max-width:1160px){.hero h1{max-width:760px;font-size:clamp(65px,7.25vw,93px)}.hero-photo{width:80%}}
+@media(max-width:950px){.hero{height:95svh;min-height:800px}.hero h1{max-width:700px;font-size:clamp(57px,8vw,78px)}.hero-photo{width:100%;opacity:.9}.hero-photo .photograph{object-position:72% 50%}.hero-photo-overlay{background:linear-gradient(90deg,#05285ef2 0%,#05285eaa 44%,#05285e55 100%),linear-gradient(0deg,#03162d88,transparent 40%)}.hero-content{padding-top:85px}}
+@media(max-width:670px){.brand-official-image{width:175px;max-width:175px;max-height:40px}.hero{height:93svh;min-height:775px}.hero-photo{width:100%;height:65%;top:0;opacity:.9}.hero-photo .photograph{object-position:69% 30%}.hero-photo-overlay{background:linear-gradient(0deg,#052757 2%,#052757d9 24%,#05275750 65%,#05275740 100%),linear-gradient(90deg,#052757b0,transparent 90%)}.hero-content{padding-top:145px}.hero h1{font-size:clamp(44px,11.35vw,66px);line-height:1.12;max-width:95%;margin:24px 0 22px}.hero-bottom{gap:23px}.hero-bottom p{font-size:13px;line-height:1.7;max-width:340px}.hero-topline{top:104px}.hero-footer{bottom:19px}.essence-desc p{font-size:12px;line-height:1.7}}
+
