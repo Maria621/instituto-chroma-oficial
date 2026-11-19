@@ -32,7 +32,7 @@
     const button = form.querySelector('button[type="submit"]');
     if (button) button.disabled = true;
     if (!ready) {
-      message(form, 'O formulário está indisponível. Use o canal institucional indicado nesta página.', true);
+      message(form, 'Formulário em configuração nesta prévia. Nenhuma mensagem será enviada por aqui; use o Instagram institucional.', true);
     }
   };
 
