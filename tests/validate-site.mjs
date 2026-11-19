@@ -90,6 +90,18 @@ const footers = htmlFiles.map(file => htmlOf(join(root, file)).match(/<footer cl
 if (footers.some(footer => !footer)) errors.push('Rodapé institucional V7 ausente em uma ou mais páginas');
 if (new Set(footers).size > 1) errors.push('Rodapés divergentes entre páginas');
 
+
+// Responsabilidade dos estilos: ajustes específicos de Novidades pertencem ao
+// seu componente (v31.css), não à camada global quality.css.
+const newsCss = readFileSync(join(root, 'v31.css'), 'utf8');
+const globalCss = readFileSync(join(root, 'quality.css'), 'utf8');
+if (!newsCss.includes('.v3-news-page .v31-expand-art')) {
+  errors.push('v31.css: estilos responsivos do controle Ampliar arte ausentes');
+}
+if (globalCss.includes('.v3-news-page .v31-expand-art')) {
+  errors.push('quality.css: estilos de Novidades duplicados fora do componente');
+}
+
 if (errors.length) {
   process.stderr.write('Falhas encontradas:\n' + errors.map(error => '- ' + error).join('\n') + '\n');
   process.exitCode = 1;
