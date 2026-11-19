@@ -8,11 +8,10 @@ Site institucional multipáginas da Escola Chroma. Projeto em revisão pré-lan�
 
 ```text
 /
-├── index.html                   # HTML estático gerado (não editar diretamente)
 ├── src/pages/                   # Fonte editorial de cada uma das 12 páginas
 ├── src/components/              # Cabeçalho, rodapé e link de acessibilidade compartilhados
 ├── scripts/build-pages.mjs      # Gerador determinístico de HTML estático
-├── index.html                   # Apresentação institucional
+├── index.html                   # Página inicial gerada para o Vercel
 ├── nossa-escola.html            # História e marcos institucionais
 ├── nossa-essencia.html          # Missão, visão e valores
 ├── metodologia.html             # Percurso de aprendizagem
