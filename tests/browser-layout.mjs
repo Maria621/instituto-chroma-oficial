@@ -102,6 +102,42 @@ try {
         return [...new Set(failures)].slice(0, 16);
       });
       for (const issue of issues) problems.push(width + 'px / ' + path + ': ' + issue);
+      if (path === 'index.html') {
+        const hero = await page.evaluate(async () => {
+          const section = document.querySelector('.fusion-hero');
+          const image = document.querySelector('.fusion-visual-frame img');
+          const frame = document.querySelector('.fusion-visual-frame');
+          await image.decode().catch(() => {});
+          const bounds = section.getBoundingClientRect();
+          const pictureBounds = image.getBoundingClientRect();
+          const style = getComputedStyle(image);
+          return {
+            heroHeight: Math.ceil(bounds.height),
+            imageNaturalWidth: image.naturalWidth,
+            imageNaturalHeight: image.naturalHeight,
+            declaredWidth: Number(image.getAttribute('width')),
+            declaredHeight: Number(image.getAttribute('height')),
+            objectFit: style.objectFit,
+            imageTransform: style.transform,
+            frameOverflow: getComputedStyle(frame).overflow,
+            pictureInViewport: pictureBounds.left >= -6 &&
+              pictureBounds.right <= innerWidth + 6
+          };
+        });
+        console.log('Banner ' + width + 'px: ' + JSON.stringify(hero));
+        const maxHeight = width >= 1280 ? 790 : width >= 760 ? 870 : 1080;
+        if (hero.heroHeight > maxHeight) {
+          problems.push(width + 'px: banner muito alto (' + hero.heroHeight + 'px / limite ' + maxHeight + 'px)');
+        }
+        if (hero.imageNaturalWidth !== 1100 || hero.imageNaturalHeight !== 619 ||
+            hero.declaredWidth !== 1100 || hero.declaredHeight !== 619) {
+          problems.push(width + 'px: proporções da imagem principal não correspondem ao arquivo');
+        }
+        if (hero.objectFit !== 'contain' || hero.imageTransform !== 'none' ||
+            hero.frameOverflow !== 'visible' || !hero.pictureInViewport) {
+          problems.push(width + 'px: arte principal ainda pode ser recortada');
+        }
+      }
     }
     // Navegação em janela responsiva.
     await page.goto(base + '/index.html', { waitUntil: 'domcontentloaded' });
