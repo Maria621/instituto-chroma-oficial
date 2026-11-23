@@ -41,7 +41,8 @@ for (const [target, parts] of Object.entries(manifest.outputs)) {
   }
   built.set(target, css.join(''));
 }
-const important = [...built.values()].reduce((n,s)=>n+(s.match(/!important/g)||[]).length,0);
+// Only count real declarations; documentation comments may mention CSS keywords.
+const important = [...built.values()].reduce((n,s)=>n+(s.replace(/\/\*[\s\S]*?\*\//g,'').match(/!important/g)||[]).length,0);
 if (important > 55) throw Error('Novas regras !important: '+important+' > 55 existentes');
 const references = [...[...built.values()].join('\n').matchAll(/var\(\s*--([\w-]+)/g)].map(x=>x[1]);
 const missing = [...new Set(references.filter(name=>!defined.has(name)))];
