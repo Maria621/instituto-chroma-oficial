@@ -1,11 +1,6 @@
-/**
- * Instituto Chroma · navegação compartilhada
- * Mantém os estados acessíveis sincronizados em todas as páginas.
- */
 (() => {
   'use strict';
-
-  const header = document.getElementById('header');
+const header = document.getElementById('header');
   if (!header) return;
 
   const menu = header.querySelector('#mobile-menu');
@@ -107,8 +102,11 @@
   };
   desktop.addEventListener?.('change', onBreakpointChange);
   window.addEventListener('resize', onBreakpointChange, { passive: true });
+})();
 
-  // Elemento dialog nativo: Escape, foco e retorno ao botão acionador.
+(() => {
+  'use strict';
+// Elemento dialog nativo: Escape, foco e retorno ao botão acionador.
   const dialog = document.getElementById('chroma-image-dialog');
   if (dialog && typeof dialog.showModal === 'function') {
     let lastTrigger = null;

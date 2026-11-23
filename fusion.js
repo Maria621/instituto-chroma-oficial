@@ -1,10 +1,6 @@
-/**
- * Instituto Chroma · galeria e animação com melhoria progressiva.
- * Textos da galeria pertencem aos elementos HTML data-*.
- */
 (() => {
   'use strict';
-  const gallery = document.querySelector('[data-fusion-gallery]');
+const gallery = document.querySelector('[data-fusion-gallery]');
   if (gallery) {
     const images = [...gallery.querySelectorAll('.fusion-gallery-slide')];
     const dots = [...gallery.querySelectorAll('.fusion-gallery-dot')];
@@ -89,8 +85,11 @@
     }
     show(0);
   }
+})();
 
-  // A página inteira permanece visível quando o navegador bloqueia scripts.
+(() => {
+  'use strict';
+// A página inteira permanece visível quando o navegador bloqueia scripts.
   const revealNodes = [...document.querySelectorAll('[data-fusion-reveal]')];
   if (revealNodes.length &&
       'IntersectionObserver' in window &&
