@@ -43,15 +43,11 @@ function renderHeader(filename, source) {
     .replaceAll('{{HEADER_SOLID}}', isHome ? '' : ' header-solid')
     .replaceAll('{{BRAND_LIGHT}}', isHome ? ' brand-light' : '')
     .replaceAll('{{LOGO_WHITE}}', isHome ? '-branco' : '')
-    .replaceAll('{{GROUP_CURRENT}}', groupPages.has(filename) ? ' data-current="true"' : '');
+    .replaceAll('{{GROUP_CURRENT}}', groupPages.has(filename) ? ' data-current="true"' : '')
+    .replaceAll('{{HEADER_CONTACT_CURRENT}}', filename === 'contato.html' ? ' aria-current="page"' : '');
 
   markup = markup.replace(/\{\{ACTIVE:(desktop|mobile):([^}]+)\}\}/g, (_, location, href) => {
-    // Preservar as marcações da V13 byte por byte nesta migração estrutural.
-    // Eventuais correções de estado ativo serão auditadas separadamente.
-    if (filename === 'aluno-nota-10.html' && href === 'nossa-escola.html') {
-      return location === 'mobile' ? ' aria-current="page"' : ' ';
-    }
-    if (['aluno-nota-10.html', 'parcerias.html', 'contato.html'].includes(filename)) return '';
+    // Uma única página ativa por localização; o estado deve corresponder ao destino.
     return href === filename ? ' aria-current="page"' : '';
   });
   if (/\{\{(?:HEADER|BRAND|LOGO|GROUP|ACTIVE)/.test(markup)) {
