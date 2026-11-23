@@ -1905,7 +1905,7 @@ body { overflow-wrap: normal; }
 .chroma-history-milestones { background: #fff; padding: clamp(72px, 9vw, 125px) 0; }
 .chroma-history-milestones .chroma-section-heading { align-items: start; }
 .chroma-history-list {
-  display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
   gap: clamp(18px,2.2vw,31px); list-style: none; padding: 0; margin: 0;
 }
 .chroma-history-list li {
@@ -2289,4 +2289,22 @@ body { overflow-wrap: normal; }
 [data-chroma-form] .v3-form-send:disabled {
   cursor: not-allowed;
   opacity: .66;
+}
+
+
+/* Etapa 6: foco teclado visível em superfícies claras e escuras.
+   Um anel azul com halo claro evita depender apenas de uma cor. */
+:where(a[href], button, input, select, textarea, [tabindex="0"]):focus-visible {
+  outline: 3px solid #18559a;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #fff;
+}
+:where(main [id], .chroma-history-milestones, .chroma-trajectory):target {
+  scroll-margin-top: 106px;
+}
+@media (forced-colors: active) {
+  :where(a[href], button, input, select, textarea):focus-visible {
+    outline: 3px solid Highlight;
+    box-shadow: none;
+  }
 }
