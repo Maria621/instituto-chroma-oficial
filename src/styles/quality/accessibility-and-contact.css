@@ -162,3 +162,12 @@
 .method-step .method-step-n {
   color: #355878;
 }
+
+/* Ajustes finais medidos no Chrome: textos sobre azul muito claro/branco. */
+.chroma-timeline-controls > p,
+.v4-kicker,
+.v3-full-form > .v3-kicker {
+  color: #1d507f;
+}
+.v4-scholarship-end .v4-kicker,
+.v3-news-feature .v3-kicker { color: #f4e09a; }
