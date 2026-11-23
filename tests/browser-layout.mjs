@@ -231,6 +231,17 @@ try {
     }
     await page.close();
   }
+  // Os estados aria-current devem refletir a página real, não o submenu pai.
+  for (const filename of ['index.html','nossa-escola.html','aluno-nota-10.html','parcerias.html','contato.html']) {
+    const navPage = await browser.newPage({viewport:{width:1440,height:900}});
+    await navPage.goto(base+'/'+filename,{waitUntil:'domcontentloaded'});
+    const current = await navPage.locator('#header a[aria-current="page"]').evaluateAll(nodes=>
+      nodes.map(node=>node.getAttribute('href')));
+    const expected=filename==='contato.html'?['contato.html']:filename==='index.html'?['index.html']:filename==='parcerias.html'?['parcerias.html']:filename==='aluno-nota-10.html'?['aluno-nota-10.html']:['nossa-escola.html'];
+    if(current.some(href=>!expected.includes(href)))problems.push(filename+': aria-current aponta para outra página: '+current.join(', '));
+    if(!current.length)problems.push(filename+': sem estado aria-current para página atual');
+    await navPage.close();
+  }
   // Interações de conteúdo prioritárias.
   const page = await browser.newPage({ viewport: { width: 1024, height: 900 } });
   await page.goto(base + '/index.html', { waitUntil: 'domcontentloaded' });

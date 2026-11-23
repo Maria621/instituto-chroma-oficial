@@ -85,7 +85,7 @@ const required = {
   'nossa-essencia.html': ['class="page-essence"', 'Missão', 'Visão', 'Valores'],
   'metodologia.html': ['Aplicação orientada', 'class="method-step'],
   'contato.html': ['data-chroma-form', 'data-chroma-challenge', 'src="contact.js"', 'Instagram'],
-  'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"']
+  'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"', 'id="valinhos"']
 };
 for (const [page, fragments] of Object.entries(required)) {
   const content = htmlOf(join(root, page));
