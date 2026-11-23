@@ -1199,3 +1199,36 @@ body { overflow-wrap: normal; }
     box-shadow: none;
   }
 }
+
+
+/* V16: correções WCAG 2.2 AA de contraste textual por tipo de superfície.
+   Manter escopos claros/escuros separados; não usar !important. */
+.chroma-footer-connect p,
+.people-aside p,
+.people-signature,
+.about-visual-index,
+.v3-news-article-info p,
+.v3-contact-top p,
+.v3-units-intro p,
+.v3-privacy p {
+  color: #334f6a;
+}
+.fusion-unit:not(:first-child) > small,
+.v3-units-intro > .v3-kicker,
+.v3-units-bottom .v3-kicker,
+.v3-news-page .v3-kicker,
+.v3-news-article-info small,
+.v3-contact-top .v3-kicker,
+.v3-contact-top .v4-kicker,
+.v3-privacy .v3-kicker,
+.v6-partnership-intro .v4-kicker,
+.v6-partnership-content .v4-kicker {
+  color: #1e5388;
+}
+.v3-news-feature .v3-kicker,
+.v4-scholarship-end .v4-kicker {
+  color: #f4e09a;
+}
+.method-step .method-step-n {
+  color: #355878;
+}
