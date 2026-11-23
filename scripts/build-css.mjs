@@ -46,9 +46,13 @@ if (important > 55) throw Error('Novas regras !important: '+important+' > 55 exi
 const references = [...[...built.values()].join('\n').matchAll(/var\(\s*--([\w-]+)/g)].map(x=>x[1]);
 const missing = [...new Set(references.filter(name=>!defined.has(name)))];
 if (missing.length) throw Error('Variáveis não declaradas: '+missing.join(', '));
+// Um único request CSS em produção, preservando a ordem da cascata aprovada.
+const fullCss=names.map(name=>built.get(name)).join('\n');
+built.set('site.css',fullCss);
+const publicNames=[...names,'site.css'];
 let identical=0;
 const pending=[];
-for (const name of names) {
+for (const name of publicNames) {
   let actual = null;
   try { actual = await readFile(join(root,name),'utf8'); }
   catch(e) { if (e.code!=='ENOENT') throw e; }
@@ -60,6 +64,6 @@ if (pending.length) {
   console.error('CSS desatualizado: '+pending.join(', ')+'. Execute node scripts/build-css.mjs');
   process.exitCode=1;
 } else {
-  console.log((check?'CSS verificado':'CSS gerado')+': 5 arquivos; '+identical+
+  console.log((check?'CSS verificado':'CSS gerado')+': '+publicNames.length+' arquivos; '+identical+
     ' idênticos; '+defined.size+' tokens centralizados; '+important+' !important existentes.');
 }
