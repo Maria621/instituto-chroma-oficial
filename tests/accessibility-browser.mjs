@@ -43,7 +43,7 @@ try{
         }));
       for(const v of result.violations){
         const item={page:filename,width,rule:v.id,impact:v.impact,
-          nodes:v.nodes.slice(0,3).map(n=>n.target.join(' ')),
+          nodes:v.nodes.slice(0,24).map(n=>({target:n.target.join(' '), info:n.any?.[0]?.data||null})),
           description:v.description};
         if(['critical','serious'].includes(v.impact))serious.push(item);
         else moderate.push(item);
