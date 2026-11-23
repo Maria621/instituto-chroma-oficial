@@ -91,3 +91,7 @@ Para editar uma página, altere `src/pages/<pagina>.html` e execute `node script
 ## Etapa 4 — Sistema CSS modular
 
 O visual aprovado foi mantido enquanto os tokens passaram para **uma única origem** em `src/styles/tokens.css` (fontes Manrope/DM Sans, cores e medidas). Edite os módulos de `src/styles/`, não os CSS gerados da raiz. Execute `node scripts/build-css.mjs` e confirme `node scripts/build-css.mjs --check`; o CI impede CSS fora de sincronia e novos `!important` acima do limite legado de 55. Veja [ETAPA_4_CSS_V15.md](ETAPA_4_CSS_V15.md).
+
+## Etapas 5–8 — evolução de engenharia e lançamento
+
+Os scripts de interação ficam organizados em `src/scripts/` e são gerados na raiz por `scripts/build-js.mjs`. As folhas CSS são entregues como `site.css`, preservando a mesma ordem da cascata e diminuindo solicitações de estilos. As páginas mantêm SEO descritivo e `noindex` até aprovação institucional, jurídica e operacional. Antes de declarar o lançamento, executar `node scripts/audit-launch.mjs` e conferir o SHA do deploy. Ver `ETAPAS_5_A_8_V16.md`.

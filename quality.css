@@ -796,7 +796,7 @@ body { overflow-wrap: normal; }
 .chroma-history-milestones { background: #fff; padding: clamp(72px, 9vw, 125px) 0; }
 .chroma-history-milestones .chroma-section-heading { align-items: start; }
 .chroma-history-list {
-  display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
   gap: clamp(18px,2.2vw,31px); list-style: none; padding: 0; margin: 0;
 }
 .chroma-history-list li {
@@ -1181,3 +1181,63 @@ body { overflow-wrap: normal; }
   cursor: not-allowed;
   opacity: .66;
 }
+
+
+/* Etapa 6: foco teclado visível em superfícies claras e escuras.
+   Um anel azul com halo claro evita depender apenas de uma cor. */
+:where(a[href], button, input, select, textarea, [tabindex="0"]):focus-visible {
+  outline: 3px solid #18559a;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #fff;
+}
+:where(main [id], .chroma-history-milestones, .chroma-trajectory):target {
+  scroll-margin-top: 106px;
+}
+@media (forced-colors: active) {
+  :where(a[href], button, input, select, textarea):focus-visible {
+    outline: 3px solid Highlight;
+    box-shadow: none;
+  }
+}
+
+
+/* V16: correções WCAG 2.2 AA de contraste textual por tipo de superfície.
+   Manter escopos claros/escuros separados; não usar !important. */
+.chroma-footer-connect p,
+.people-aside p,
+.people-signature,
+.about-visual-index,
+.v3-news-article-info p,
+.v3-contact-top p,
+.v3-units-intro p,
+.v3-privacy p {
+  color: #334f6a;
+}
+.fusion-unit:not(:first-child) > small,
+.v3-units-intro > .v3-kicker,
+.v3-units-bottom .v3-kicker,
+.v3-news-page .v3-kicker,
+.v3-news-article-info small,
+.v3-contact-top .v3-kicker,
+.v3-contact-top .v4-kicker,
+.v3-privacy .v3-kicker,
+.v6-partnership-intro .v4-kicker,
+.v6-partnership-content .v4-kicker {
+  color: #1e5388;
+}
+.v3-news-feature .v3-kicker,
+.v4-scholarship-end .v4-kicker {
+  color: #f4e09a;
+}
+.method-step .method-step-n {
+  color: #355878;
+}
+
+/* Ajustes finais medidos no Chrome: textos sobre azul muito claro/branco. */
+.chroma-timeline-controls > p,
+.v4-kicker,
+.v3-full-form > .v3-kicker {
+  color: #1d507f;
+}
+.v4-scholarship-end .v4-kicker,
+.v3-news-feature .v3-kicker { color: #f4e09a; }

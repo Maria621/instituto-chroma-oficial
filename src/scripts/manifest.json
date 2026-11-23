@@ -1,0 +1,25 @@
+{
+  "description": "Componentes de interação isolados, reunidos por destino público.",
+  "outputs": {
+    "app.js": [
+      "src/scripts/header.js",
+      "src/scripts/methodology.js",
+      "src/scripts/experience.js",
+      "src/scripts/legacy-gallery.js"
+    ],
+    "v31.js": [
+      "src/scripts/navigation.js",
+      "src/scripts/image-dialog.js"
+    ],
+    "fusion.js": [
+      "src/scripts/fusion-gallery.js",
+      "src/scripts/reveal.js"
+    ],
+    "timeline.js": [
+      "src/scripts/timeline.js"
+    ],
+    "contact.js": [
+      "src/scripts/contact.js"
+    ]
+  }
+}

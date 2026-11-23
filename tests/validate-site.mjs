@@ -55,11 +55,9 @@ for (const page of htmlFiles) {
       if (fragment && !targetIds.includes(fragment)) errors.push(page + ': âncora ausente em ' + raw);
     }
   }
-  if (!html.includes('quality.css')) errors.push(page + ': camada de estilo V6 ausente');
-  const tokenLink = '<link rel="stylesheet" href="tokens.css">';
-  const baseLink = '<link rel="stylesheet" href="style.css">';
-  if (!html.includes(tokenLink) || html.indexOf(tokenLink) >= html.indexOf(baseLink)) {
-    errors.push(page + ': tokens CSS devem ser carregados antes da base');
+  if (!html.includes('<link rel="stylesheet" href="site.css">')) errors.push(page + ': bundle CSS ausente');
+  for (const old of ['tokens.css', 'style.css', 'v31.css', 'fusion.css', 'quality.css']) {
+    if (html.includes('href="' + old + '"')) errors.push(page + ': folhas antigas carregadas separadamente: ' + old);
   }
 }
 
@@ -68,7 +66,7 @@ for (const file of ['app.js', 'v31.js', 'fusion.js', 'timeline.js', 'contact.js'
   catch (error) { errors.push(file + ': ' + error.message); }
 }
 
-for (const file of ['tokens.css', 'style.css', 'v31.css', 'fusion.css', 'quality.css']) {
+for (const file of ['tokens.css', 'style.css', 'v31.css', 'fusion.css', 'quality.css', 'site.css']) {
   const css = readFileSync(join(root, file), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
   let depth = 0;
   for (const char of css) {
@@ -87,7 +85,7 @@ const required = {
   'nossa-essencia.html': ['class="page-essence"', 'Missão', 'Visão', 'Valores'],
   'metodologia.html': ['Aplicação orientada', 'class="method-step'],
   'contato.html': ['data-chroma-form', 'data-chroma-challenge', 'src="contact.js"', 'Instagram'],
-  'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"']
+  'unidades.html': ['id="anhanguera"', 'id="diadema"', 'id="sorocaba"', 'id="valinhos"']
 };
 for (const [page, fragments] of Object.entries(required)) {
   const content = htmlOf(join(root, page));
